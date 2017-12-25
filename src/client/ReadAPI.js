@@ -1,3 +1,5 @@
+import uid from 'uid';
+
 const API_URL = 'http://localhost:3001';
 const HEADERS = {
     'Accept': 'application/json',
@@ -32,6 +34,36 @@ export default class ReadAPI {
         }
 
         return [];
+    }
+
+    async novoPost(post) {
+        const id = uid(16);
+        const timestamp = Date.now();
+
+        post.id = id;
+        post.timestamp = timestamp;
+
+        const response = await fetch(`${API_URL}/posts`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                ...HEADERS
+            },
+            body: JSON.stringify(post)
+        });
+
+        console.log(post);
+        console.log(response);
+    }
+
+    async post(id) {
+        const post = await this.request(`/posts/${id}`);
+
+        if (post) {
+            return post;
+        }
+
+        return {};
     }
 
     async request(uri, params = []) {

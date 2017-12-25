@@ -13,6 +13,7 @@ import Navbar from './components/ui/Navbar';
 
 import Index from './components/Index';
 import Categoria from './components/Categoria';
+import Post from './components/Post';
 import Novo from './components/Novo';
 
 import registerServiceWorker from './registerServiceWorker';
@@ -21,12 +22,9 @@ ReactDOM.render(
     <BrowserRouter>
         <div className="app">
             <Navbar />
-            <Route exact path="/" render={() => (
-                <Index />
-            )} />
-            <Route path="/novo" render={() => (
-                <Novo />
-            )} />
+            <Route exact path="/" component={Index} />
+            <Route path="/novo" component={Novo} />
+            <Route path="/posts/:id" component={Post} />
             <Route path="/categoria/:name" component={Categoria} />
         </div>
     </BrowserRouter>

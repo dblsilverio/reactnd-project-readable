@@ -16,8 +16,16 @@ export default class ReadAPI {
         return [];
     }
 
-    async posts() {
-        const posts = await this.request('/posts');
+    async posts(categoria = null) {
+        let uri = '/posts';
+
+        if (categoria) {
+            uri = `/${categoria}${uri}`;
+        }
+
+        console.log(uri);
+
+        const posts = await this.request(uri);
 
         if (posts) {
             return posts;

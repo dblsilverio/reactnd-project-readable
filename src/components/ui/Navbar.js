@@ -34,7 +34,7 @@ export default class Navbar extends Component {
                                 aria-expanded="false">Categorias</Link>
                             <div className="dropdown-menu" aria-labelledby="dropdown03">
                                 {this.state.categories.map(category => (
-                                    <Link className="dropdown-item" key={category.path} to="/">{category.name}</Link>
+                                    <Link className="dropdown-item" key={category.path} to={`/categoria/${category.name}`}>{category.name}</Link>
                                 ))}
                             </div>
                         </li>

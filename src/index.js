@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/ui/Navbar';
 
 import Index from './components/Index';
+import Categoria from './components/Categoria';
 import Novo from './components/Novo';
 
 import registerServiceWorker from './registerServiceWorker';
@@ -26,6 +27,7 @@ ReactDOM.render(
             <Route path="/novo" render={() => (
                 <Novo />
             )} />
+            <Route path="/categoria/:name" component={Categoria} />
         </div>
     </BrowserRouter>
     , document.getElementById('root'));

@@ -5,7 +5,7 @@ export default class Posts extends Component {
     render() {
         return (
             <div>
-                <h1>Top Posts</h1>
+                <h1>{this.props.nome}</h1>
 
                 <table className="table table-striped">
                     <thead>

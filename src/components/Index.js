@@ -20,7 +20,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
-                <Posts posts={this.state.posts} />
+                <Posts posts={this.state.posts} nome="Top Posts" />
             </div>
         );
     }

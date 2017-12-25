@@ -12,8 +12,16 @@ export default class Categoria extends Component {
     }
 
     async componentDidMount() {
+        await this.refreshPosts(this.props.match.params.name);
+    }
+
+    async componentWillReceiveProps(props){
+        await this.refreshPosts(props.match.params.name);
+    }
+
+    async refreshPosts(categoria){
         this.setState({
-            posts: await new Client().posts(this.props.match.params.name)
+            posts: await new Client().posts(categoria)
         })
     }
 

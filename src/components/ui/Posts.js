@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Posts extends Component {
 
@@ -21,9 +22,9 @@ export default class Posts extends Component {
                             this.props.posts.map(post => (
                                 <tr key={post.id}>
                                     <td>{post.voteScore}</td>
-                                    <td>{post.title}</td>
+                                    <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                     <td>{post.author}</td>
-                                    <td>{new Date(post.timestamp).toLocaleDateString() }</td>
+                                    <td>{new Date(post.timestamp).toLocaleDateString()}</td>
                                 </tr>
                             ))
                         }

@@ -56,6 +56,15 @@ export default class ReadAPI {
         console.log(response);
     }
 
+    async deleteComment(cid){
+        const response = await fetch(`${API_URL}/comments/${cid}`, {
+            method: 'DELETE',
+            headers: HEADERS
+        });
+
+        console.log(response);
+    }
+
     async post(id) {
         const post = await this.request(`/posts/${id}`);
 
@@ -64,6 +73,16 @@ export default class ReadAPI {
         }
 
         return {};
+    }
+
+    async comentariosPost(post_id){
+        const comentarios = await this.request(`/posts/${post_id}/comments`);
+        console.log(comentarios);
+        if (comentarios) {
+            return comentarios;
+        }
+
+        return [];
     }
 
     async request(uri, params = []) {

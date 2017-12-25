@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import Comentarios from './ui/Comentarios';
 import Pontuacao from './ui/Pontuacao';
 
 import Client from '../client/ReadAPI';
@@ -12,8 +13,10 @@ export default class Post extends Component {
     }
 
     async componentDidMount() {
+        const client = new Client();
+
         this.setState({
-            post: await new Client().post(this.props.match.params.id)
+            post: await client.post(this.props.match.params.id)
         })
     }
 
@@ -29,8 +32,10 @@ export default class Post extends Component {
                         {this.state.post.body}
                     </div>
                 </div>
-
-            </div >
+                <div>
+                    <Comentarios post={this.state.post.id} />
+                </div>
+            </div>
         );
     }
 

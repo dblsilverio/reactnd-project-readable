@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import GoDiffModified from 'react-icons/lib/go/diff-modified';
 import GoDiffRemoved from 'react-icons/lib/go/diff-removed';
 
+import Pontuacao from './Pontuacao';
+
 import Client from '../../client/ReadAPI';
 
 export default class Comentarios extends Component {
@@ -31,7 +33,7 @@ export default class Comentarios extends Component {
                 <h4>Comentários</h4>
                 {this.state.comments.map(comment => (
                     <div key={comment.id}>
-                        <h5>{comment.author} em {new Date(comment.timestamp).toLocaleDateString()}</h5>
+                        <h5><Pontuacao pontos={comment.voteScore} /> {comment.author} em {new Date(comment.timestamp).toLocaleDateString()}</h5>
                         <p>
                             <button className="btn btn-warning btn-sm" onClick={() => this.editComment(comment.id)}><GoDiffModified size="20" /></button>
                             <button className="btn btn-danger btn-sm" onClick={() => this.deleteComment(comment.id)}><GoDiffRemoved size="20" /></button>

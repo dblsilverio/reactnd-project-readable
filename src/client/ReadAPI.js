@@ -75,6 +75,15 @@ export default class ReadAPI {
         return {};
     }
 
+    async deletePost(post_id) {
+        const response = await fetch(`${API_URL}/posts/${post_id}`, {
+            method: 'DELETE',
+            headers: HEADERS
+        });
+
+        console.log(response);
+    }
+
     async comentariosPost(post_id) {
         const comentarios = await this.request(`/posts/${post_id}/comments`);
         if (comentarios) {

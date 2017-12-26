@@ -94,12 +94,23 @@ export default class ReadAPI {
     }
 
     async novoComentario(comentario, post) {
-        comentario['id'] = uid(20);
-        comentario['parentId'] = post.id;
+        let update = false;
+        let metodo = 'POST';
+        let uri = '/comments/';
+
+        if (!comentario.id) {
+            comentario['id'] = uid(20);
+            comentario['parentId'] = post;
+        } else {
+            update = true;
+            metodo = 'PUT';
+            uri = `/comments/${comentario.id}`;
+        }
+        
         comentario['timestamp'] = Date.now();
 
-        const response = await fetch(`${API_URL}/comments/`, {
-            method: 'POST',
+        const response = await fetch(`${API_URL}${uri}`, {
+            method: metodo,
             headers: {
                 'Content-type': 'application/json',
                 ...HEADERS

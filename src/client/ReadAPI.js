@@ -56,7 +56,7 @@ export default class ReadAPI {
         console.log(response);
     }
 
-    async deleteComment(cid){
+    async deleteComment(cid) {
         const response = await fetch(`${API_URL}/comments/${cid}`, {
             method: 'DELETE',
             headers: HEADERS
@@ -75,14 +75,30 @@ export default class ReadAPI {
         return {};
     }
 
-    async comentariosPost(post_id){
+    async comentariosPost(post_id) {
         const comentarios = await this.request(`/posts/${post_id}/comments`);
-        console.log(comentarios);
         if (comentarios) {
             return comentarios;
         }
 
         return [];
+    }
+
+    async novoComentario(comentario, post) {
+        comentario['id'] = uid(20);
+        comentario['parentId'] = post.id;
+        comentario['timestamp'] = Date.now();
+
+        const response = await fetch(`${API_URL}/comments/`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                ...HEADERS
+            },
+            body: JSON.stringify(comentario)
+        });
+
+        console.log(response);
     }
 
     async request(uri, params = []) {

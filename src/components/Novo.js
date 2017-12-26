@@ -16,7 +16,7 @@ export default class Novo extends Component {
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         const categorias = await new Client().categories();
 
         this.setState(prev => {
@@ -44,7 +44,7 @@ export default class Novo extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        if(!this.state.post.category){
+        if (!this.state.post.category) {
             alert('Selecione uma categoria');
             return;
         }
@@ -79,7 +79,7 @@ export default class Novo extends Component {
                             <label className="col-md-4 control-label" htmlFor="category">category</label>
                             <div className="col-md-4">
                                 <select id="category" name="category" className="form-control input-md" onChange={this.handleForm.bind(this)}>
-                                <option value=""></option>
+                                    <option value=""></option>
                                     {this.state.categorias.map(categoria => (
                                         <option key={categoria.path} value={categoria.path}>{categoria.name}</option>
                                     ))}

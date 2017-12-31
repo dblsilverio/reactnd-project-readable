@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import FAEraser from 'react-icons/lib/fa/eraser';
 import FAEdit from 'react-icons/lib/fa/edit';
+
+import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
+import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
 import Pontuacao from './Pontuacao';
 
@@ -96,6 +98,11 @@ export default class Comentarios extends Component {
 
     }
 
+    async vote(comm_id, upDown){
+        const client = new Client();
+        await client.voteComment(comm_id, upDown);
+    }
+
     render() {
         return (
             <div className="col-md-12">
@@ -124,7 +131,8 @@ export default class Comentarios extends Component {
                                             </div>
                                         </form>
                                     </div>
-                                </div>
+                                </div>            update = true;
+
                             </div>
                         </div>
                     ) : <div></div>
@@ -143,7 +151,14 @@ export default class Comentarios extends Component {
                                         <div className="col-md-12">
                                             <div className="row">
                                                 <div className="col-md-12">
-                                                    <p className="lead"><Pontuacao pontos={comment.voteScore} /> <b>{comment.author}</b> @ {new Date(comment.timestamp).toLocaleDateString()}</p>
+                                                    <p className="lead">
+                                                        <Pontuacao pontos={comment.voteScore} />
+                                                        <b>{comment.author}</b> @ {new Date(comment.timestamp).toLocaleDateString()}
+                                                        <span>
+                                                            <button className="btn btn-success btn-sm" onClick={() => this.vote(comment.id, 'upVote')}><FAThumbsUp size="15" /></button>&nbsp;
+                                                            <button className="btn btn-danger btn-sm" onClick={() => this.vote(comment.id, 'downVote')}><FAThumbsDown size="15" /></button>
+                                                        </span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

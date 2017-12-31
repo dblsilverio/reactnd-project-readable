@@ -104,7 +104,6 @@ export default class ReadAPI {
     }
 
     async novoComentario(comentario, post) {
-        let update = false;
         let metodo = 'POST';
         let uri = '/comments/';
 
@@ -112,7 +111,6 @@ export default class ReadAPI {
             comentario['id'] = uid(20);
             comentario['parentId'] = post;
         } else {
-            update = true;
             metodo = 'PUT';
             uri = `/comments/${comentario.id}`;
         }
@@ -132,6 +130,17 @@ export default class ReadAPI {
 
     async vote(post_id, upDown) {
         await fetch(`${API_URL}/posts/${post_id}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                ...HEADERS
+            },
+            body: JSON.stringify({ option: upDown })
+        });
+    }
+
+    async voteComment(comm_id, upDown) {
+        await fetch(`${API_URL}/comments/${comm_id}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

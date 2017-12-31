@@ -24,7 +24,7 @@ export default class Novo extends Component {
             const post = await client.post(this.props.match.params.id)
             this.category.disabled = true;
             this.author.disabled = true;
-            
+
             this.setState(prev => {
                 return {
                     ...this.state,
@@ -68,60 +68,41 @@ export default class Novo extends Component {
 
     render() {
         return (
-            <div>
-
-                <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-                    <fieldset>
-
-                        <legend>Novo Post</legend>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="title">Título</label>
-                            <div className="col-md-5">
-                                <input id="title" name="title" type="text" placeholder="Meu post" className="form-control input-md" onChange={this.handleForm.bind(this)} value={this.state.post.title} />
-
-                            </div>
+            <div className="py-5">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1 className="text-center">New Post</h1>
                         </div>
-
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="body">body</label>
-                            <div className="col-md-4">
-                                <textarea className="form-control" id="body" name="body" onChange={this.handleForm.bind(this)} value={this.state.post.body}></textarea>
-                            </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <form method="post" onSubmit={this.handleSubmit.bind(this)}>
+                                <div className="form-group"> <label>Title</label>
+                                    <input type="text" name="title" className="form-control w-75" placeholder="My first post <3" onChange={this.handleForm.bind(this)} value={this.state.post.title} />
+                                </div>
+                                <div className="form-group"> <label>Content</label>
+                                    <textarea name="body" className="form-control" placeholder="I like writing stuffs =D" onChange={this.handleForm.bind(this)} value={this.state.post.body} />
+                                </div>
+                                <div className="form-group"> <label>Category</label>
+                                    <select id="category" name="category" className="form-control w-25" onChange={this.handleForm.bind(this)} ref={(input) => { this.category = input; }} value={this.state.post.category}>
+                                        <option value=""></option>
+                                        {this.state.categorias.map(categoria => (
+                                            <option key={categoria.path} value={categoria.path}>{categoria.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group"> <label>Author</label>
+                                    <input type="text" name="author" className="form-control w-25" placeholder="John Doe" onChange={this.handleForm.bind(this)} ref={(input) => this.author = input} value={this.state.post.author} />
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <button type="submit" className="btn btn-primary">Publish</button>
+                                </div>
+                            </form>
                         </div>
-
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="category">category</label>
-                            <div className="col-md-4">
-                                <select id="category" name="category" className="form-control input-md" onChange={this.handleForm.bind(this)} ref={(input) => { this.category = input; }} value={this.state.post.category}>
-                                    <option value=""></option>
-                                    {this.state.categorias.map(categoria => (
-                                        <option key={categoria.path} value={categoria.path}>{categoria.name}</option>
-                                    ))}
-                                </select>
-
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="author">author</label>
-                            <div className="col-md-4">
-                                <input id="author" name="author" type="text" placeholder="João da Silva" className="form-control input-md" onChange={this.handleForm.bind(this)} ref={(input) => this.author = input} value={this.state.post.author} />
-
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="criar"></label>
-                            <div className="col-md-4">
-                                <button id="criar" name="criar" className="btn btn-primary">Criar</button>
-                            </div>
-                        </div>
-
-                    </fieldset>
-                </form>
-
-
-            </div >
+                    </div>
+                </div>
+            </div>
         );
     }
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import Pontuacao from './Pontuacao';
+
 export default class Posts extends Component {
 
     render() {
@@ -11,7 +13,7 @@ export default class Posts extends Component {
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <th style={{ width: '10%' }}>Votos</th>
+                            <th style={{ width: '10%', 'text-align': 'center' }}>Votos</th>
                             <th style={{ width: '50%' }}>Título</th>
                             <th>Autor</th>
                             <th>Data Publicação</th>
@@ -21,7 +23,7 @@ export default class Posts extends Component {
                         {
                             this.props.posts.map(post => (
                                 <tr key={post.id}>
-                                    <td>{post.voteScore}</td>
+                                    <td style={{'text-align': 'center'}}><Pontuacao pontos={post.voteScore} /></td>
                                     <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                     <td>{post.author}</td>
                                     <td>{new Date(post.timestamp).toLocaleDateString()}</td>

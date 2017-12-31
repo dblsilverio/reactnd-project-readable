@@ -16,7 +16,7 @@ export default class Navbar extends Component {
     async componentDidMount() {
         this.setState({
             categories: await new Client().categories()
-        })
+        });
     }
 
     render() {

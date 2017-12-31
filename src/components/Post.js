@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import GoDiffModified from 'react-icons/lib/go/diff-modified';
 import GoDiffRemoved from 'react-icons/lib/go/diff-removed';
-import GoDownVote from 'react-icons/lib/go/chevron-down';
-import GoUpVote from 'react-icons/lib/go/chevron-up';
+import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
+import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
 import Comentarios from './ui/Comentarios';
 import Pontuacao from './ui/Pontuacao';
@@ -44,7 +44,7 @@ export default class Post extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1>{this.state.post.title}</h1>
+                            <h1><Pontuacao pontos={this.state.post.voteScore} /> {this.state.post.title}</h1>
                         </div>
                     </div>
                     <div className="row">
@@ -58,6 +58,14 @@ export default class Post extends Component {
                                 {this.state.post.body}
                             </pre>
                         </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <p className="lead" style={{ 'text-align': 'center' }}>
+                            <button className="btn btn-success btn-sm" onClick={() => this.vote('upVote')}><FAThumbsUp size="20" /></button>&nbsp;
+                            <button className="btn btn-danger btn-sm" onClick={() => this.vote('downVote')}><FAThumbsDown size="20" /></button>
+                        </p>
                     </div>
                 </div>
                 <div>

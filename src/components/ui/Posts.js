@@ -5,7 +5,77 @@ import Pontuacao from './Pontuacao';
 
 export default class Posts extends Component {
 
+    state = {
+        ordering: 'voteScore',
+        descending: true
+    };
+
+    orderByAuthor() {
+
+        this.setState({
+            ordering: 'author',
+            descending: !this.state.descending
+        });
+    }
+
+    orderByDate() {
+        this.setState({
+            ordering: 'date',
+            descending: !this.state.descending
+        });
+    }
+
+    orderByTitle() {
+        this.setState({
+            ordering: 'title',
+            descending: !this.state.descending
+        });
+    }
+
+    orderByVoteScore() {
+        this.setState({
+            ordering: 'voteScore',
+            descending: !this.state.descending
+        });
+    }
+
     render() {
+        let posts = this.props.posts;
+
+        if (this.state.ordering === 'voteScore') {
+            posts = posts.sort((p, r) => {
+                return r.voteScore - p.voteScore * (this.state.descending ? 1 : -1);
+            })
+        } else if (this.state.ordering === 'title') {
+            posts = posts.sort((p, r) => {
+                let ret = 0;
+
+                if (r.title < p.title) {
+                    ret = 1;
+                } else if (r.title > p.title) {
+                    ret = -1;
+                }
+
+                return ret * (this.state.descending ? 1 : -1);
+            })
+        } else if (this.state.ordering === 'date') {
+            posts = posts.sort((p, r) => {
+                return r.timestamp - p.timestamp * (this.state.descending ? 1 : -1);
+            })
+        } else if (this.state.ordering === 'author') {
+            posts = posts.sort((p, r) => {
+                let ret = 0;
+
+                if (r.author < p.author) {
+                    ret = 1;
+                } else if (r.author > p.author) {
+                    ret = -1;
+                }
+
+                return ret * (this.state.descending ? 1 : -1);
+            })
+        }
+
         return (
             <div className="py-5">
                 <div className="container">
@@ -19,16 +89,18 @@ export default class Posts extends Component {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th style={{ width: '50%' }}>Title</th>
-                                        <th>Author</th>
-                                        <th>Date</th>
+                                        <th style={{ width: '10%', cursor: 'pointer' }} onClick={this.orderByVoteScore.bind(this)}># Votes</th>
+                                        <th style={{ width: '50%', cursor: 'pointer' }} onClick={this.orderByTitle.bind(this)}>Title</th>
+                                        <th style={{ cursor: 'pointer' }} onClick={this.orderByAuthor.bind(this)}>Author</th>
+                                        <th style={{ cursor: 'pointer' }} onClick={this.orderByDate.bind(this)}>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         this.props.posts.map(post => (
                                             <tr key={post.id}>
-                                                <td><Pontuacao pontos={post.voteScore} /> <Link to={`/posts/${post.id}`}>{post.title}</Link></td>
+                                                <td style={{textAlign: 'center'}}><Pontuacao pontos={post.voteScore} /></td>
+                                                <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                                 <td>{post.author}</td>
                                                 <td>{new Date(post.timestamp).toLocaleDateString()}</td>
                                             </tr>

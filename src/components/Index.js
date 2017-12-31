@@ -12,8 +12,10 @@ export default class Index extends Component {
     }
 
     async componentDidMount() {
+        let posts = await new Client().posts();
+
         this.setState({
-            posts: await new Client().posts()
+            posts
         })
     }
 

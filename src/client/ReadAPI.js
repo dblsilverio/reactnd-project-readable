@@ -37,14 +37,25 @@ export default class ReadAPI {
     }
 
     async novoPost(post) {
-        const id = uid(16);
-        const timestamp = Date.now();
 
-        post.id = id;
-        post.timestamp = timestamp;
+        let method = 'POST';
+        let uri = `${API_URL}/posts`;
+        if (post.id) {
+            method = 'PUT';
+            const { id, title, body } = post;
 
-        const response = await fetch(`${API_URL}/posts`, {
-            method: 'POST',
+            post = { id, title, body };
+            uri += `/${id}`;
+        } else {
+            const id = uid(16);
+            const timestamp = Date.now();
+
+            post.id = id;
+            post.timestamp = timestamp;
+        }
+
+        await fetch(uri, {
+            method: method,
             headers: {
                 'Content-type': 'application/json',
                 ...HEADERS
@@ -52,8 +63,7 @@ export default class ReadAPI {
             body: JSON.stringify(post)
         });
 
-        console.log(post);
-        console.log(response);
+
     }
 
     async deleteComment(cid) {
@@ -106,10 +116,10 @@ export default class ReadAPI {
             metodo = 'PUT';
             uri = `/comments/${comentario.id}`;
         }
-        
+
         comentario['timestamp'] = Date.now();
 
-        const response = await fetch(`${API_URL}${uri}`, {
+        await fetch(`${API_URL}${uri}`, {
             method: metodo,
             headers: {
                 'Content-type': 'application/json',
@@ -118,7 +128,17 @@ export default class ReadAPI {
             body: JSON.stringify(comentario)
         });
 
-        console.log(response);
+    }
+
+    async vote(post_id, upDown) {
+        await fetch(`${API_URL}/posts/${post_id}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                ...HEADERS
+            },
+            body: JSON.stringify({ option: upDown })
+        });
     }
 
     async request(uri, params = []) {

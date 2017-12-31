@@ -24,7 +24,8 @@ ReactDOM.render(
             <Navbar />
             <Route exact path="/" component={Index} />
             <Route path="/novo" component={Novo} />
-            <Route path="/posts/:id" component={Post} />
+            <Route exact path="/posts/:id" component={Post} />
+            <Route path="/posts/:id/edit" component={Novo} />
             <Route path="/categoria/:name" component={Categoria} />
         </div>
     </BrowserRouter>

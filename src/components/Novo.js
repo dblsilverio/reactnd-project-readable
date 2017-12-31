@@ -17,7 +17,21 @@ export default class Novo extends Component {
     }
 
     async componentDidMount() {
-        const categorias = await new Client().categories();
+        const client = new Client();
+        const categorias = await client.categories();
+
+        if (this.props.match.params.id) {
+            const post = await client.post(this.props.match.params.id)
+            this.category.disabled = true;
+            this.author.disabled = true;
+            
+            this.setState(prev => {
+                return {
+                    ...this.state,
+                    post
+                }
+            })
+        }
 
         this.setState(prev => {
             return {
@@ -63,7 +77,7 @@ export default class Novo extends Component {
                         <div className="form-group">
                             <label className="col-md-4 control-label" htmlFor="title">Título</label>
                             <div className="col-md-5">
-                                <input id="title" name="title" type="text" placeholder="Meu post" className="form-control input-md" onChange={this.handleForm.bind(this)} />
+                                <input id="title" name="title" type="text" placeholder="Meu post" className="form-control input-md" onChange={this.handleForm.bind(this)} value={this.state.post.title} />
 
                             </div>
                         </div>
@@ -71,14 +85,14 @@ export default class Novo extends Component {
                         <div className="form-group">
                             <label className="col-md-4 control-label" htmlFor="body">body</label>
                             <div className="col-md-4">
-                                <textarea className="form-control" id="body" name="body" onChange={this.handleForm.bind(this)}></textarea>
+                                <textarea className="form-control" id="body" name="body" onChange={this.handleForm.bind(this)} value={this.state.post.body}></textarea>
                             </div>
                         </div>
 
                         <div className="form-group">
                             <label className="col-md-4 control-label" htmlFor="category">category</label>
                             <div className="col-md-4">
-                                <select id="category" name="category" className="form-control input-md" onChange={this.handleForm.bind(this)}>
+                                <select id="category" name="category" className="form-control input-md" onChange={this.handleForm.bind(this)} ref={(input) => { this.category = input; }} value={this.state.post.category}>
                                     <option value=""></option>
                                     {this.state.categorias.map(categoria => (
                                         <option key={categoria.path} value={categoria.path}>{categoria.name}</option>
@@ -91,7 +105,7 @@ export default class Novo extends Component {
                         <div className="form-group">
                             <label className="col-md-4 control-label" htmlFor="author">author</label>
                             <div className="col-md-4">
-                                <input id="author" name="author" type="text" placeholder="João da Silva" className="form-control input-md" onChange={this.handleForm.bind(this)} />
+                                <input id="author" name="author" type="text" placeholder="João da Silva" className="form-control input-md" onChange={this.handleForm.bind(this)} ref={(input) => this.author = input} value={this.state.post.author} />
 
                             </div>
                         </div>

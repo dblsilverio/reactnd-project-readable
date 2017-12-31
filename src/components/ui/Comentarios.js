@@ -23,9 +23,12 @@ export default class Comentarios extends Component {
 
     async componentWillReceiveProps(props) {
         const client = new Client();
-
+        let comments = await client.comentariosPost(props.post);
+        comments = comments.sort((c, d) => {
+            return d.voteScore - c.voteScore;
+        });
         this.setState({
-            comments: await client.comentariosPost(props.post)
+            comments
         })
     }
 

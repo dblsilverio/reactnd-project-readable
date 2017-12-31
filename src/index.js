@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import './assets/css/navbar-top.css';
+import './assets/css/leitura.css';
 
 import './bootstrap-assets';
 

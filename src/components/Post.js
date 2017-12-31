@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import GoDiffModified from 'react-icons/lib/go/diff-modified';
-import GoDiffRemoved from 'react-icons/lib/go/diff-removed';
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
 import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
@@ -54,22 +52,22 @@ export default class Post extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <pre>
+                            <pre style={{ whiteSpace: 'pre-wrap' }}>
                                 {this.state.post.body}
                             </pre>
                         </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-12">
-                        <p className="lead" style={{ 'text-align': 'center' }}>
-                            <button className="btn btn-success btn-sm" onClick={() => this.vote('upVote')}><FAThumbsUp size="20" /></button>&nbsp;
+                    <div className="row">
+                        <div className="col-md-12">
+                            <p className="lead" style={{ textAlign: 'center' }}>
+                                <button className="btn btn-success btn-sm" onClick={() => this.vote('upVote')}><FAThumbsUp size="20" /></button>&nbsp;
                             <button className="btn btn-danger btn-sm" onClick={() => this.vote('downVote')}><FAThumbsDown size="20" /></button>
-                        </p>
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <Comentarios post={this.state.post.id} />
+                    <div className="row">
+                        <Comentarios post={this.state.post.id} />
+                    </div>
                 </div>
             </div>
         );

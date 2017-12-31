@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import GoDiffModified from 'react-icons/lib/go/diff-modified';
-import GoDiffRemoved from 'react-icons/lib/go/diff-removed';
+import FAEraser from 'react-icons/lib/fa/eraser';
+import FAEdit from 'react-icons/lib/fa/edit';
 
 import Pontuacao from './Pontuacao';
 
@@ -15,7 +15,8 @@ export default class Comentarios extends Component {
         comment: {
             author: '',
             body: ''
-        }
+        },
+        commentAreaVisible: false
     }
 
     async componentWillReceiveProps(props) {
@@ -44,7 +45,7 @@ export default class Comentarios extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        if(!this.state.comment.body){
+        if (!this.state.comment.body) {
             alert('Preencha um corpo para o comentário');
             return;
         }
@@ -61,7 +62,8 @@ export default class Comentarios extends Component {
                     body: ''
                 }
             }
-        })
+        });
+        this.toggleComment(null);
     }
 
     async deleteComment(cid) {
@@ -72,44 +74,95 @@ export default class Comentarios extends Component {
     async editComment(comment) {
         this.setState({
             comment
-        })
+        });
+        this.toggleComment(null);
+    }
+
+    async toggleComment(event) {
+
+        if (this.state.commentAreaVisible) {
+            await this.setState((prev) => {
+                return {
+                    commentAreaVisible: false
+                }
+            });
+        } else {
+            await this.setState((prev) => {
+                return {
+                    commentAreaVisible: true
+                }
+            });
+        }
+
     }
 
     render() {
         return (
-            <div>
-
-                <div>
-                    <h5>Comente este post</h5>
-                    <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="author">Autor</label>
-                            <div className="col-md-5">
-                                <input className="form-control" id="author" name="author" type="text" placeholder="João" onChange={this.handleForm.bind(this)} value={this.state.comment.author} />
-
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label" htmlFor="body">body</label>
-                            <div className="col-md-4">
-                                <textarea className="form-control" id="body" name="body" onChange={this.handleForm.bind(this)} value={this.state.comment.body}></textarea>
-                            </div>
-                        </div>
-                        <button onClick={this.handleSubmit.bind(this)}>Comentar</button> <button type="button" onClick={this.cancelar.bind(this)}>Cancelar</button>
-                    </form>
-                </div>
-
-                <h4>Comentários</h4>
-                {this.state.comments.map(comment => (
-                    <div key={comment.id}>
-                        <h5><Pontuacao pontos={comment.voteScore} /> {comment.author} em {new Date(comment.timestamp).toLocaleDateString()}</h5>
-                        <p>
-                            <button className="btn btn-warning btn-sm" onClick={() => this.editComment(comment)}><GoDiffModified size="20" /></button>
-                            <button className="btn btn-danger btn-sm" onClick={() => this.deleteComment(comment.id)}><GoDiffRemoved size="20" /></button>
-                        </p>
-                        <p>{comment.body}</p>
+            <div className="col-md-12">
+                <div className="row">
+                    <div className="col-md-12">
+                        <h4 style={{ cursor: 'pointer' }} onClick={this.toggleComment.bind(this)}>Comment this post</h4>
                     </div>
-                ))}
+                </div>
+                {
+                    this.state.commentAreaVisible ? (
+                        <div className='row' ref={(div) => { this.commentArea = div; }}>
+                            <div className="col-md-12">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <form className="" method="post" onSubmit={this.handleSubmit.bind(this)}>
+                                            <div className="form-group"> <label>Author</label>
+                                                <input type="text" name="author" className="form-control w-25" placeholder="John Doe" onChange={this.handleForm.bind(this)} value={this.state.comment.author} />
+                                            </div>
+                                            <div className="form-group"> <label>Comment</label>
+                                                <input type="text" name="body" className="form-control w-75" placeholder="Comment body" onChange={this.handleForm.bind(this)} value={this.state.comment.body} />
+                                            </div>
+                                            <div style={{ textAlign: 'center' }}>
+                                                <button type="submit" className="btn btn-primary">Comment</button>
+                                                &nbsp;
+                                    <button type="button" className="btn btn-warning" onClick={this.cancelar.bind(this)}>Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ) : <div></div>
+                }
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <h4 className="">Comments</h4>
+                            </div>
+                        </div>
+                        {this.state.comments.map(comment =>
+                            (
+                                <div key={comment.id}>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <p className="lead"><Pontuacao pontos={comment.voteScore} /> <b>{comment.author}</b> @ {new Date(comment.timestamp).toLocaleDateString()}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-12 px-5">
+                                            <p className="lead">{comment.body}</p>
+                                            <p className="small">
+                                                <button className="btn btn-warning btn-sm" onClick={() => this.editComment(comment)}><FAEdit size="15" /></button>
+                                                &nbsp;
+                                                <button className="btn btn-danger btn-sm" onClick={() => this.deleteComment(comment.id)}><FAEraser size="15" /></button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
             </div>
         );
     }

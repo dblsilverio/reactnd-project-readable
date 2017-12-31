@@ -32,7 +32,7 @@ export default class Post extends Component {
         await client.deletePost(pid);
     }
 
-    async vote(upDown){
+    async vote(upDown) {
         const client = new Client();
 
         await client.vote(this.state.post.id, upDown);
@@ -40,21 +40,24 @@ export default class Post extends Component {
 
     render() {
         return (
-            <div>
-                <h1><Pontuacao pontos={this.state.post.voteScore} /> {this.state.post.title}&nbsp;
-                    <button className="btn btn-success btn-sm" onClick={() => this.vote('upVote')}><GoUpVote size="20" /></button>
-                    <button className="btn btn-danger btn-sm" onClick={() => this.vote('downVote')}><GoDownVote size="20" /></button>
-                </h1>
-                <div>
-                    <Link className="btn btn-warning btn-sm" to={`/posts/${this.state.post.id}/edit`} size="20" ><GoDiffModified size="20" /></Link>
-                    <button className="btn btn-danger btn-sm" onClick={() => this.deletePost(this.state.post.id)}><GoDiffRemoved size="20" /></button>
-                </div>
-                <div>{this.state.post.author} @ {new Date(this.state.post.timestamp).toLocaleDateString()} em <Link to={`/categoria/${this.state.post.category}`}>{this.state.post.category}</Link></div>
-
-                <div className="form-group">
-                    <label className="col-md-4 control-label" htmlFor="body"></label>
-                    <div className="col-md-4">
-                        {this.state.post.body}
+            <div className="py-5">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1>{this.state.post.title}</h1>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <p className="lead">{new Date(this.state.post.timestamp).toLocaleDateString()} by {this.state.post.author} @ <Link to={`/categoria/${this.state.post.category}`}>{this.state.post.category}</Link></p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <pre>
+                                {this.state.post.body}
+                            </pre>
+                        </div>
                     </div>
                 </div>
                 <div>

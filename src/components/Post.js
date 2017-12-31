@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import FAEraser from 'react-icons/lib/fa/eraser';
+import FAEdit from 'react-icons/lib/fa/edit';
+
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
 import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
@@ -47,7 +50,15 @@ export default class Post extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <p className="lead">{new Date(this.state.post.timestamp).toLocaleDateString()} by {this.state.post.author} @ <Link to={`/categoria/${this.state.post.category}`}>{this.state.post.category}</Link></p>
+                            <p className="lead">
+                                {new Date(this.state.post.timestamp).toLocaleDateString()} by {this.state.post.author} @ <Link to={`/categoria/${this.state.post.category}`}>{this.state.post.category}</Link>
+                                &nbsp;
+                                <span>
+                                    <Link className="btn btn-warning btn-sm" to={`/posts/${this.state.post.id}/edit`}><FAEdit size="15" /></Link>
+                                    &nbsp;
+                                    <button className="btn btn-danger btn-sm" onClick={() => this.deletePost(this.state.post.id)}><FAEraser size="15" /></button>
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <div className="row">

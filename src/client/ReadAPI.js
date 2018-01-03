@@ -25,8 +25,6 @@ export default class ReadAPI {
             uri = `/${categoria}${uri}`;
         }
 
-        console.log(uri);
-
         const posts = await this.request(uri);
 
         if (posts) {

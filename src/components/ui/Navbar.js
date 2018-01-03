@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
+import { categoryLoad } from '../../actions/category';
+
 import FABook from 'react-icons/lib/fa/book';
 import FANewspaper from 'react-icons/lib/fa/newspaper-o';
 
-
 import Client from '../../client/ReadAPI';
 
-export default class Navbar extends Component {
-
-    state = {
-        categories: []
-    }
+class Navbar extends Component {
 
     async componentDidMount() {
-        this.setState({
-            categories: await new Client().categories()
-        });
+
+        if (this.props.categories.length === 0) {
+            const categories = await new Client().categories();
+            this.props.dispatch(categoryLoad(categories));
+        }
+
     }
 
     render() {
+        console.log(this.props.categories);
         return (
 
             <nav className="navbar navbar-expand-md bg-primary navbar-dark">
@@ -29,7 +32,7 @@ export default class Navbar extends Component {
                     <div className="btn-group">
                         <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Categories </button>
                         <div className="dropdown-menu">
-                            {this.state.categories.map(category => (
+                            {this.props.categories.map(category => (
                                 <Link className="dropdown-item" key={category.path} to={`/categoria/${category.name}`}>{category.name}</Link>
                             ))}
                         </div>
@@ -46,3 +49,12 @@ export default class Navbar extends Component {
     }
 
 }
+
+function mapStateToProps({ category }) {
+    const { categories } = category;
+    return {
+        categories
+    };
+}
+
+export default connect(mapStateToProps)(Navbar);

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Posts from './ui/Posts';
 
 import Client from '../client/ReadAPI';
 
-export default class Index extends Component {
+class Index extends Component {
 
     //Posts para redux
     state = {
@@ -28,3 +29,5 @@ export default class Index extends Component {
     }
 
 }
+
+export default connect()(Index);

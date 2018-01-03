@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
 import Client from '../client/ReadAPI';
 
-export default class Novo extends Component {
+class Novo extends Component {
 
     state = {
-        categorias: [],
         post: {
             id: '',
             timestamp: 0,
@@ -18,7 +19,6 @@ export default class Novo extends Component {
 
     async componentDidMount() {
         const client = new Client();
-        const categorias = await client.categories();
 
         if (this.props.match.params.id) {
             const post = await client.post(this.props.match.params.id)
@@ -33,11 +33,6 @@ export default class Novo extends Component {
             })
         }
 
-        this.setState(prev => {
-            return {
-                categorias
-            }
-        })
     }
 
     handleForm(event) {
@@ -87,7 +82,7 @@ export default class Novo extends Component {
                                 <div className="form-group"> <label>Category</label>
                                     <select id="category" name="category" className="form-control w-25" onChange={this.handleForm.bind(this)} ref={(input) => { this.category = input; }} value={this.state.post.category}>
                                         <option value=""></option>
-                                        {this.state.categorias.map(categoria => (
+                                        {this.props.categories.map(categoria => (
                                             <option key={categoria.path} value={categoria.path}>{categoria.name}</option>
                                         ))}
                                     </select>
@@ -107,3 +102,13 @@ export default class Novo extends Component {
     }
 
 }
+
+function mapStateToProperties({ category }) {
+    const {categories} = category;
+
+    return {
+        categories
+    }
+}
+
+export default connect(mapStateToProperties)(Novo);

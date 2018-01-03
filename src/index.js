@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
+
+import reducers from './reducers';
+
 import './assets/css/navbar-top.css';
 import './assets/css/leitura.css';
 
@@ -19,16 +24,21 @@ import Novo from './components/Novo';
 
 import registerServiceWorker from './registerServiceWorker';
 
+const store = createStore(reducers);
+
 ReactDOM.render(
-    <BrowserRouter>
-        <div className="app">
-            <Navbar />
-            <Route exact path="/" component={Index} />
-            <Route path="/novo" component={Novo} />
-            <Route exact path="/posts/:id" component={Post} />
-            <Route path="/posts/:id/edit" component={Novo} />
-            <Route path="/categoria/:name" component={Categoria} />
-        </div>
-    </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+            <div className="app">
+                <Navbar />
+                <Route exact path="/" component={Index} />
+                <Route path="/novo" component={Novo} />
+                <Route exact path="/posts/:id" component={Post} />
+                <Route path="/posts/:id/edit" component={Novo} />
+                <Route path="/categoria/:name" component={Categoria} />
+            </div>
+        </BrowserRouter>
+    </Provider>
     , document.getElementById('root'));
 registerServiceWorker();
+

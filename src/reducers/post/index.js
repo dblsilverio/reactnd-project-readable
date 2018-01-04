@@ -1,4 +1,4 @@
-import { POST_LOAD, POST_VOTE, POST_DELETE, POST_ADD } from '../../actions/post';
+import { POST_LOAD, POST_VOTE, POST_DELETE, POST_ADD, POST_UPDATE } from '../../actions/post';
 
 export default function post(state = { posts: [] }, action) {
     const { posts } = action;
@@ -38,6 +38,19 @@ export default function post(state = { posts: [] }, action) {
 
             return {
                 posts: updatedPosts
+            }
+        }
+        case POST_UPDATE: {
+            const { post } = action;
+
+            return {
+                posts: posts.map(p => {
+                    if (p.id === post.id) {
+                        return post;
+                    }
+
+                    return p;
+                })
             }
         }
         default: {

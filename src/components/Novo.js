@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Client from '../client/ReadAPI';
 import mapStateToProps from '../mappers';
-import { postAdd } from '../actions/post/index';
+import { postAdd, postUpdate } from '../actions/post/index';
 
 class Novo extends Component {
 
@@ -29,7 +29,6 @@ class Novo extends Component {
 
             this.setState(prev => {
                 return {
-                    ...this.state,
                     post
                 }
             })
@@ -62,7 +61,11 @@ class Novo extends Component {
 
         try {
             await new Client().novoPost(this.state.post);
-            this.props.dispatch(postAdd(this.props.posts, this.state.post));
+            if (!this.state.post.id) {
+                this.props.dispatch(postAdd(this.props.posts, this.state.post));
+            } else {
+                this.props.dispatch(postUpdate(this.props.posts, this.state.post));
+            }
             this.props.history.push('/');
         } catch (e) {
             console.error(e);

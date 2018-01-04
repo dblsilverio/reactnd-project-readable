@@ -2,8 +2,7 @@ export const POST_LOAD = "POST_LOAD";
 export const POST_VOTE = "POST_VOTE";
 export const POST_DELETE = "POST_DELETE";
 export const POST_ADD = "POST_ADD";
-export const POST_BY_CATEGORY = "POST_BY_CATEGORY"
-export const POST_SORT = "POST_SORT";
+export const POST_UPDATE = "POST_UPDATE";
 
 export function postLoad(posts){
     return {
@@ -37,17 +36,10 @@ export function postAdd(posts, post){
     }
 }
 
-export function postByCategory(category){
+export function postUpdate(posts, post){
     return {
-        type: POST_BY_CATEGORY,
-        category
-    }
-}
-
-export function postSort(sortBy, descending){
-    return {
-        type: POST_SORT,
-        sortBy,
-        descending
+        type: POST_UPDATE,
+        posts,
+        post
     }
 }

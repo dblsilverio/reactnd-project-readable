@@ -1,5 +1,8 @@
 import uid from 'uid';
 
+export const TYPE_POST = "POST";
+export const TYPE_COMMENT = "COMMENT";
+
 const API_URL = 'http://localhost:3001';
 const HEADERS = {
     'Accept': 'application/json',
@@ -69,8 +72,6 @@ export default class ReadAPI {
             method: 'DELETE',
             headers: HEADERS
         });
-
-        console.log(response);
     }
 
     async post(id) {
@@ -108,6 +109,7 @@ export default class ReadAPI {
         if (!comentario.id) {
             comentario['id'] = uid(20);
             comentario['parentId'] = post;
+            comentario['new'] = true;
         } else {
             metodo = 'PUT';
             uri = `/comments/${comentario.id}`;
@@ -126,19 +128,22 @@ export default class ReadAPI {
 
     }
 
-    async vote(post_id, upDown) {
-        await fetch(`${API_URL}/posts/${post_id}`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                ...HEADERS
-            },
-            body: JSON.stringify({ option: upDown })
-        });
-    }
+    async vote(id, type, upDown) {
 
-    async voteComment(comm_id, upDown) {
-        await fetch(`${API_URL}/comments/${comm_id}`, {
+        let uri = "";
+
+        switch (type) {
+            case TYPE_COMMENT: {
+                uri = 'comments';
+                break;
+            }
+            case TYPE_POST: {
+                uri = 'posts';
+                break;
+            }
+        }
+
+        await fetch(`${API_URL}/${uri}/${id}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

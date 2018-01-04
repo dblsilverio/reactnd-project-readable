@@ -72,7 +72,7 @@ class Post extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <p className="lead" style={{ textAlign: 'center' }}>
-                                <Voto post={this.state.post} size="20" />
+                                <Voto postVote={this.state.post} size="20" />
                             </p>
                         </div>
                     </div>

@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import FAEraser from 'react-icons/lib/fa/eraser';
 import FAEdit from 'react-icons/lib/fa/edit';
 
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
 import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
+import mapStateToProps from '../mappers/postMapper';
+
 import Comentarios from './ui/Comentarios';
 import Pontuacao from './ui/Pontuacao';
 
 import Client from '../client/ReadAPI';
 
-export default class Post extends Component {
+class Post extends Component {
 
     state = {
         post: {},
@@ -20,10 +24,8 @@ export default class Post extends Component {
     }
 
     async componentDidMount() {
-        const client = new Client();
-
         this.setState({
-            post: await client.post(this.props.match.params.id)
+            post: this.props.posts.find(post => post.id === this.props.match.params.id)
         })
     }
 
@@ -85,3 +87,5 @@ export default class Post extends Component {
     }
 
 }
+
+export default connect(mapStateToProps)(Post);

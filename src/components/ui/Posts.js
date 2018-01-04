@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import mapStateToProps from '../../mappers/postMapper';
 
 import Pontuacao from './Pontuacao';
 
-export default class Posts extends Component {
+class Posts extends Component {
 
     state = {
         ordering: 'voteScore',
@@ -41,6 +44,14 @@ export default class Posts extends Component {
 
     render() {
         let posts = this.props.posts;
+        let category = this.props.category;
+
+        if(category){
+            posts = posts.filter(post => post.category === category);
+        }
+
+        console.log(posts)
+        
 
         if (this.state.ordering === 'voteScore') {
             posts = posts.sort((p, r) => {
@@ -81,7 +92,7 @@ export default class Posts extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1 className="">Top Posts</h1>
+                            <h1 className="">{this.props.nome}</h1>
                         </div>
                     </div>
                     <div className="row">
@@ -97,9 +108,9 @@ export default class Posts extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        this.props.posts.map(post => (
+                                        posts.map(post => (
                                             <tr key={post.id}>
-                                                <td style={{textAlign: 'center'}}><Pontuacao pontos={post.voteScore} /></td>
+                                                <td style={{ textAlign: 'center' }}><Pontuacao pontos={post.voteScore} /></td>
                                                 <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                                 <td>{post.author}</td>
                                                 <td>{new Date(post.timestamp).toLocaleDateString()}</td>
@@ -116,3 +127,5 @@ export default class Posts extends Component {
     }
 
 }
+
+export default connect(mapStateToProps)(Posts);

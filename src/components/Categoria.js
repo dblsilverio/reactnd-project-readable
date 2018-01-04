@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Posts from './ui/Posts';
+import { postLoad } from '../actions/post';
+import mapStateToProps from '../mappers/postMapper';
 
 import Client from '../client/ReadAPI';
 
-export default class Categoria extends Component {
+class Categoria extends Component {
 
     //Posts para redux
     state = {
@@ -12,25 +15,20 @@ export default class Categoria extends Component {
     }
 
     async componentDidMount() {
-        await this.refreshPosts(this.props.match.params.name);
-    }
-
-    async componentWillReceiveProps(props){
-        await this.refreshPosts(props.match.params.name);
-    }
-
-    async refreshPosts(categoria){
-        this.setState({
-            posts: await new Client().posts(categoria)
-        })
+        if (this.props.posts.length === 0) {
+            const posts = await new Client().posts();
+            this.props.dispatch(postLoad(posts));
+        }
     }
 
     render() {
         return (
             <div>
-                <Posts posts={this.state.posts} nome={`Categoria`} />
+                <Posts category={this.props.match.params.name} nome={`Category: ${this.props.match.params.name}`} />
             </div>
         );
     }
 
 }
+
+export default connect(mapStateToProps)(Categoria);

@@ -22,7 +22,7 @@ class Navbar extends Component {
     }
 
     render() {
-        console.log(this.props.categories);
+
         return (
 
             <nav className="navbar navbar-expand-md bg-primary navbar-dark">

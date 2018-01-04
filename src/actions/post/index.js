@@ -6,7 +6,7 @@ export const POST_SORT = "POST_SORT";
 
 export function postLoad(posts){
     return {
-        type: POST_DELETE,
+        type: POST_LOAD,
         posts
     }
 }

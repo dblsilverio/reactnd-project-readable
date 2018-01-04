@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import Posts from './ui/Posts';
 
+import { postLoad } from '../actions/post';
+import mapStateToProps from '../mappers/postMapper';
+
 import Client from '../client/ReadAPI';
 
 class Index extends Component {
@@ -13,21 +16,22 @@ class Index extends Component {
     }
 
     async componentDidMount() {
-        let posts = await new Client().posts();
 
-        this.setState({
-            posts
-        })
+        if (this.props.posts.length === 0) {
+            const posts = await new Client().posts();
+            this.props.dispatch(postLoad(posts));
+        }
+
     }
 
     render() {
         return (
             <div>
-                <Posts posts={this.state.posts} nome="Top Posts" />
+                <Posts nome="Top Posts" />
             </div>
         );
     }
 
 }
 
-export default connect()(Index);
+export default connect(mapStateToProps)(Index);

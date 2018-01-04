@@ -55,10 +55,10 @@ class Post extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <p className="lead">
-                                {new Date(this.state.post.timestamp).toLocaleDateString()} by {this.state.post.author} @ <Link to={`/categoria/${this.state.post.category}`}>{this.state.post.category}</Link>
+                                {new Date(this.state.post.timestamp).toLocaleDateString()} by {this.state.post.author} @ <Link to={`/${this.state.post.category}`}>{this.state.post.category}</Link>
                                 &nbsp;
                                 <span>
-                                    <Link className="btn btn-warning btn-sm" to={`/posts/${this.state.post.id}/edit`}><FAEdit size="15" /></Link>
+                                    <Link className="btn btn-warning btn-sm" to={`/${this.state.post.category}/${this.state.post.id}/edit`}><FAEdit size="15" /></Link>
                                     &nbsp;
                                     <button className="btn btn-danger btn-sm" onClick={() => this.deletePost(this.state.post.id)}><FAEraser size="15" /></button>
                                 </span>

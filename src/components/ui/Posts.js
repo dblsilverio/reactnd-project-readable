@@ -89,7 +89,7 @@ class Posts extends Component {
                                         posts.map(post => (
                                             <tr key={post.id}>
                                                 <td style={{ textAlign: 'center' }}><Pontuacao pontos={post.voteScore} /></td>
-                                                <td><Link to={`/posts/${post.id}`}>{post.title}</Link> <Voto postVote={post} size="10" /></td>
+                                                <td><Link to={`/${post.category}/${post.id}`}>{post.title}</Link> <Voto postVote={post} size="10" /></td>
                                                 <td>{post.author}</td>
                                                 <td>{new Date(post.timestamp).toLocaleDateString()}</td>
                                                 <td style={{ textAlign: 'center' }}>{post.commentCount}</td>

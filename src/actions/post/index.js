@@ -29,9 +29,10 @@ export function postDelete(posts, postId){
     }
 }
 
-export function postAdd(post){
+export function postAdd(posts, post){
     return {
         type: POST_ADD,
+        posts,
         post
     }
 }

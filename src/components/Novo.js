@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Client from '../client/ReadAPI';
+import mapStateToProps from '../mappers';
+import { postAdd } from '../actions/post/index';
 
 class Novo extends Component {
 
@@ -50,7 +52,7 @@ class Novo extends Component {
         }
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
 
         if (!this.state.post.category) {
@@ -58,7 +60,13 @@ class Novo extends Component {
             return;
         }
 
-        new Client().novoPost(this.state.post);
+        try {
+            await new Client().novoPost(this.state.post);
+            this.props.dispatch(postAdd(this.props.posts, this.state.post));
+            this.props.history.push('/');
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     render() {
@@ -103,12 +111,4 @@ class Novo extends Component {
 
 }
 
-function mapStateToProperties({ category }) {
-    const {categories} = category;
-
-    return {
-        categories
-    }
-}
-
-export default connect(mapStateToProperties)(Novo);
+export default connect(mapStateToProps)(Novo);

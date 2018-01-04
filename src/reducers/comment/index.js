@@ -21,7 +21,7 @@ export default function comment(state = { comments: [] }, action) {
             const { comment } = action;
             const updatedComments = comments;
             updatedComments.push(comment);
-            console.log(updatedComments);
+
             return {
                 comments: updatedComments
             }

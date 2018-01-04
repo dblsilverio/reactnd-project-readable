@@ -53,6 +53,7 @@ export default class ReadAPI {
 
             post.id = id;
             post.timestamp = timestamp;
+            post.voteScore = 1;
         }
 
         await fetch(uri, {

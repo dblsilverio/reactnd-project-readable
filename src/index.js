@@ -33,9 +33,9 @@ ReactDOM.render(
                 <Navbar />
                 <Route exact path="/" component={Index} />
                 <Route path="/novo" component={Novo} />
+                <Route exact path="/:name" component={Categoria} />
                 <Route exact path="/:category/:id" component={Post} />
                 <Route path="/posts/:id/edit" component={Novo} />
-                <Route path="/:name" component={Categoria} />
             </div>
         </BrowserRouter>
     </Provider>

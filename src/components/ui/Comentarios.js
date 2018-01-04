@@ -47,7 +47,7 @@ export default class Comentarios extends Component {
         }
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
 
         if (!this.state.comment.body) {
@@ -56,7 +56,32 @@ export default class Comentarios extends Component {
         }
 
         const client = new Client();
-        client.novoComentario(this.state.comment, this.props.post);
+        try {
+            await client.novoComentario(this.state.comment, this.props.post);
+            this.setState(prev => {
+                let updatedComments = prev.comments;
+
+                if (prev.comment.id) {
+                    updatedComments = prev.comments.map(c => {
+                        if (c.id === this.state.comment.id) {
+                            return this.state.comment;
+                        } else {
+                            return c;
+                        }
+                    });
+                } else {
+                    updatedComments.push(this.state.comment)
+                }
+
+                return {
+                    ...prev,
+                    comments: updatedComments
+                }
+            });
+            this.cancelar();
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     cancelar(event) {
@@ -73,7 +98,19 @@ export default class Comentarios extends Component {
 
     async deleteComment(cid) {
         const client = new Client();
-        client.deleteComment(cid);
+        try {
+            await client.deleteComment(cid);
+            this.setState(prev => {
+                return {
+                    ...prev,
+                    comments: prev.comments.filter(c => {
+                        return c.id !== cid
+                    })
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     async editComment(comment) {
@@ -101,7 +138,7 @@ export default class Comentarios extends Component {
 
     }
 
-    async vote(comm_id, upDown){
+    async vote(comm_id, upDown) {
         const client = new Client();
         await client.voteComment(comm_id, upDown);
     }

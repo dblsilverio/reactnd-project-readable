@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import mapStateToProps from '../../mappers/postMapper';
+import postSorter from '../../helpers/postSorter';
 
 import Pontuacao from './Pontuacao';
 
@@ -50,42 +51,7 @@ class Posts extends Component {
             posts = posts.filter(post => post.category === category);
         }
 
-        console.log(posts)
-        
-
-        if (this.state.ordering === 'voteScore') {
-            posts = posts.sort((p, r) => {
-                return r.voteScore - p.voteScore * (this.state.descending ? 1 : -1);
-            })
-        } else if (this.state.ordering === 'title') {
-            posts = posts.sort((p, r) => {
-                let ret = 0;
-
-                if (r.title < p.title) {
-                    ret = 1;
-                } else if (r.title > p.title) {
-                    ret = -1;
-                }
-
-                return ret * (this.state.descending ? 1 : -1);
-            })
-        } else if (this.state.ordering === 'date') {
-            posts = posts.sort((p, r) => {
-                return r.timestamp - p.timestamp * (this.state.descending ? 1 : -1);
-            })
-        } else if (this.state.ordering === 'author') {
-            posts = posts.sort((p, r) => {
-                let ret = 0;
-
-                if (r.author < p.author) {
-                    ret = 1;
-                } else if (r.author > p.author) {
-                    ret = -1;
-                }
-
-                return ret * (this.state.descending ? 1 : -1);
-            })
-        }
+        posts = postSorter(posts, this.state.ordering, this.state.descending);
 
         return (
             <div className="py-5">

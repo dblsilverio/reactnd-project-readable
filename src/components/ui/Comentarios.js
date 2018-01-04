@@ -111,7 +111,7 @@ export default class Comentarios extends Component {
             <div className="col-md-12">
                 <div className="row">
                     <div className="col-md-12">
-                        <h4 style={{ cursor: 'pointer' }} onClick={this.toggleComment.bind(this)}>Comment this post</h4>
+                        <h5 style={{ cursor: 'pointer' }} onClick={this.toggleComment.bind(this)}>Comment this post [+]</h5>
                     </div>
                 </div>
                 {
@@ -144,7 +144,7 @@ export default class Comentarios extends Component {
                     <div className="col-md-12">
                         <div className="row">
                             <div className="col-md-12">
-                                <h4 className="">Comments</h4>
+                                <h4><b>{this.state.comments.length}</b> Comments</h4>
                             </div>
                         </div>
                         {this.state.comments.map(comment =>

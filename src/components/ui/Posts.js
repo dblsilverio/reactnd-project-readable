@@ -15,9 +15,15 @@ class Posts extends Component {
     };
 
     orderByAuthor() {
-
         this.setState({
             ordering: 'author',
+            descending: !this.state.descending
+        });
+    }
+
+    orderByComment() {
+        this.setState({
+            ordering: 'comment',
             descending: !this.state.descending
         });
     }
@@ -47,7 +53,7 @@ class Posts extends Component {
         let posts = this.props.posts;
         let category = this.props.category;
 
-        if(category){
+        if (category) {
             posts = posts.filter(post => post.category === category);
         }
 
@@ -70,6 +76,7 @@ class Posts extends Component {
                                         <th style={{ width: '50%', cursor: 'pointer' }} onClick={this.orderByTitle.bind(this)}>Title</th>
                                         <th style={{ cursor: 'pointer' }} onClick={this.orderByAuthor.bind(this)}>Author</th>
                                         <th style={{ cursor: 'pointer' }} onClick={this.orderByDate.bind(this)}>Date</th>
+                                        <th style={{ width: '15%', cursor: 'pointer' }} onClick={this.orderByComment.bind(this)}># Comments</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,6 +87,7 @@ class Posts extends Component {
                                                 <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                                 <td>{post.author}</td>
                                                 <td>{new Date(post.timestamp).toLocaleDateString()}</td>
+                                                <td style={{ textAlign: 'center' }}>{post.commentCount}</td>
                                             </tr>
                                         ))
                                     }

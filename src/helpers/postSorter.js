@@ -13,6 +13,18 @@ export default function (posts, sortKey, descending) {
 
             return ret * (descending ? 1 : -1);
         })
+    } else if (sortKey === 'comment') {
+        sortedPosts = posts.sort((p, r) => {
+            let ret = 0;
+
+            if (r.commentCount < p.commentCount) {
+                ret = 1;
+            } else if (r.commentCount > p.commentCount) {
+                ret = -1;
+            }
+
+            return ret * (descending ? 1 : -1);
+        })
     } else if (sortKey === 'title') {
         sortedPosts = posts.sort((p, r) => {
             let ret = 0;

@@ -24,12 +24,16 @@ class Voto extends Component {
     }
 
     render() {
+
+        const padding = this.props.size * 0.5;
+
         return (
-            <p className="lead" style={{ textAlign: 'center' }}>
-                <button className="btn btn-success btn-sm" onClick={() => this.vote('upVote')}><FAThumbsUp size="20" /></button>
+            <span>
+                <button className="btn btn-success" style={{ padding }} onClick={() => this.vote('upVote')}><FAThumbsUp size={this.props.size} /></button>
                 &nbsp;
-                <button className="btn btn-danger btn-sm" onClick={() => this.vote('downVote')}><FAThumbsDown size="20" /></button>
-            </p>
+                <button className="btn btn-danger" style={{ padding }} onClick={() => this.vote('downVote')}><FAThumbsDown size={this.props.size} /></button>
+            </span>
+
         )
     }
 

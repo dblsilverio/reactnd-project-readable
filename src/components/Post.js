@@ -9,11 +9,11 @@ import FAEdit from 'react-icons/lib/fa/edit';
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
 import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
-import { postVote } from '../actions/post';
 import mapStateToProps from '../mappers/postMapper';
 
 import Comentarios from './ui/Comentarios';
 import Pontuacao from './ui/Pontuacao';
+import Voto from './ui/Voto';
 
 import Client from '../client/ReadAPI';
 
@@ -37,17 +37,6 @@ class Post extends Component {
             await client.deletePost(pid);
         } catch (e) {
             console.error(e);
-        }
-    }
-
-    async vote(upDown) {
-        const client = new Client();
-
-        try {
-            await client.vote(this.state.post.id, upDown);
-            this.props.dispatch(postVote(this.props.posts, this.state.post.id, upDown))
-        } catch (e) {
-            console.log(e);
         }
     }
 
@@ -83,8 +72,7 @@ class Post extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <p className="lead" style={{ textAlign: 'center' }}>
-                                <button className="btn btn-success btn-sm" onClick={() => this.vote('upVote')}><FAThumbsUp size="20" /></button>&nbsp;
-                            <button className="btn btn-danger btn-sm" onClick={() => this.vote('downVote')}><FAThumbsDown size="20" /></button>
+                                <Voto post={this.state.post} size="20" />
                             </p>
                         </div>
                     </div>

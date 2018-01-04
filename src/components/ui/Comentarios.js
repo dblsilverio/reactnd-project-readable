@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
 import FAEraser from 'react-icons/lib/fa/eraser';
 import FAEdit from 'react-icons/lib/fa/edit';
 
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
 import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
+import { commentLoad, commentDelete, commentAdd, commentUpdate } from '../../actions/comment';
+import commentMapper from '../../mappers/commentMapper';
 import Pontuacao from './Pontuacao';
+import Voto from './Voto';
 
 import Client from '../../client/ReadAPI';
+import { __esModule } from 'react-redux/lib/components/connectAdvanced';
 
-export default class Comentarios extends Component {
+class Comentarios extends Component {
 
     state = {
-        comments: [],
         comment: {
             author: '',
             body: ''
@@ -21,15 +26,16 @@ export default class Comentarios extends Component {
         commentAreaVisible: false
     }
 
-    async componentWillReceiveProps(props) {
-        const client = new Client();
-        let comments = await client.comentariosPost(props.post);
-        comments = comments.sort((c, d) => {
-            return d.voteScore - c.voteScore;
-        });
-        this.setState({
-            comments
-        })
+    async componentDidUpdate(prevProps) {
+        if (this.props.post !== prevProps.post) {
+            const client = new Client();
+            let comments = await client.comentariosPost(this.props.post);
+            comments = comments.sort((c, d) => {
+                return d.voteScore - c.voteScore;
+            });
+
+            this.props.dispatch(commentLoad(comments));
+        }
     }
 
     handleForm(event) {
@@ -57,27 +63,14 @@ export default class Comentarios extends Component {
 
         const client = new Client();
         try {
-            await client.novoComentario(this.state.comment, this.props.post);
-            this.setState(prev => {
-                let updatedComments = prev.comments;
+            await client.novoComentario(this.state.comment, this.props.post);//TODO validar
 
-                if (prev.comment.id) {
-                    updatedComments = prev.comments.map(c => {
-                        if (c.id === this.state.comment.id) {
-                            return this.state.comment;
-                        } else {
-                            return c;
-                        }
-                    });
-                } else {
-                    updatedComments.push(this.state.comment)
-                }
+            if (!this.state.comment.new) {
+                this.props.dispatch(commentUpdate(this.props.comments, this.state.comment));
+            } else {
+                this.props.dispatch(commentAdd(this.props.comments, this.state.comment));
+            }
 
-                return {
-                    ...prev,
-                    comments: updatedComments
-                }
-            });
             this.cancelar();
         } catch (e) {
             console.log(e);
@@ -100,14 +93,7 @@ export default class Comentarios extends Component {
         const client = new Client();
         try {
             await client.deleteComment(cid);
-            this.setState(prev => {
-                return {
-                    ...prev,
-                    comments: prev.comments.filter(c => {
-                        return c.id !== cid
-                    })
-                }
-            })
+            this.props.dispatch(commentDelete(this.props.comments, cid));
         } catch (e) {
             console.log(e);
         }
@@ -138,12 +124,8 @@ export default class Comentarios extends Component {
 
     }
 
-    async vote(comm_id, upDown) {
-        const client = new Client();
-        await client.voteComment(comm_id, upDown);
-    }
-
     render() {
+
         return (
             <div className="col-md-12">
                 <div className="row">
@@ -167,55 +149,64 @@ export default class Comentarios extends Component {
                                             <div style={{ textAlign: 'center' }}>
                                                 <button type="submit" className="btn btn-primary">Comment</button>
                                                 &nbsp;
-                                    <button type="button" className="btn btn-warning" onClick={this.cancelar.bind(this)}>Cancel</button>
+                                                <button type="button" className="btn btn-warning" onClick={this.cancelar.bind(this)}>Cancel</button>
                                             </div>
                                         </form>
                                     </div>
-                                </div>            update = true;
-
+                                </div>
                             </div>
                         </div>
                     ) : <div></div>
                 }
                 <div className="row">
                     <div className="col-md-12">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <h4><b>{this.state.comments.length}</b> Comments</h4>
+                        {this.props.comments.length === 0
+                            ?
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <h4>No comments to show</h4>
+                                </div>
                             </div>
-                        </div>
-                        {this.state.comments.map(comment =>
-                            (
-                                <div key={comment.id}>
-                                    <div className="row">
-                                        <div className="col-md-12">
+                            :
+                            <div>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <h4><b>{this.props.comments.length}</b> Comments</h4>
+                                    </div>
+                                </div>
+                                {this.props.comments.map(comment =>
+                                    (
+                                        <div key={comment.id}>
                                             <div className="row">
                                                 <div className="col-md-12">
-                                                    <p className="lead">
-                                                        <Pontuacao pontos={comment.voteScore} />
-                                                        <b>{comment.author}</b> @ {new Date(comment.timestamp).toLocaleDateString()}
-                                                        <span>
-                                                            <button className="btn btn-success btn-sm" onClick={() => this.vote(comment.id, 'upVote')}><FAThumbsUp size="15" /></button>&nbsp;
-                                                            <button className="btn btn-danger btn-sm" onClick={() => this.vote(comment.id, 'downVote')}><FAThumbsDown size="15" /></button>
-                                                        </span>
+                                                    <div className="row">
+                                                        <div className="col-md-12">
+                                                            <p className="lead">
+                                                                <Pontuacao pontos={comment.voteScore} />
+                                                                <b>{comment.author}</b> @ {new Date(comment.timestamp).toLocaleDateString()}
+                                                                <span>
+                                                                    &nbsp;<Voto commentVote={comment} size="10" />
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12 px-5">
+                                                    <p className="lead">{comment.body}</p>
+                                                    <p className="small">
+                                                        <button className="btn btn-warning btn-sm" onClick={() => this.editComment(comment)}><FAEdit size="15" /></button>
+                                                        &nbsp;
+                                                        <button className="btn btn-danger btn-sm" onClick={() => this.deleteComment(comment.id)}><FAEraser size="15" /></button>
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-12 px-5">
-                                            <p className="lead">{comment.body}</p>
-                                            <p className="small">
-                                                <button className="btn btn-warning btn-sm" onClick={() => this.editComment(comment)}><FAEdit size="15" /></button>
-                                                &nbsp;
-                                                <button className="btn btn-danger btn-sm" onClick={() => this.deleteComment(comment.id)}><FAEraser size="15" /></button>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        )}
+                                    ))}
+                            </div>
+
+                        }
                     </div>
                 </div>
             </div>
@@ -223,3 +214,5 @@ export default class Comentarios extends Component {
     }
 
 }
+
+export default connect(commentMapper)(Comentarios);

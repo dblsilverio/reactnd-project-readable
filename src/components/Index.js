@@ -10,11 +10,6 @@ import Client from '../client/ReadAPI';
 
 class Index extends Component {
 
-    //Posts para redux
-    state = {
-        posts: []
-    }
-
     async componentDidMount() {
 
         if (this.props.posts.length === 0) {

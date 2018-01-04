@@ -9,6 +9,7 @@ import FAEdit from 'react-icons/lib/fa/edit';
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
 import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
+import { postVote } from '../actions/post';
 import mapStateToProps from '../mappers/postMapper';
 
 import Comentarios from './ui/Comentarios';
@@ -32,13 +33,22 @@ class Post extends Component {
     async deletePost(pid) {
         const client = new Client();
 
-        await client.deletePost(pid);
+        try {
+            await client.deletePost(pid);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     async vote(upDown) {
         const client = new Client();
 
-        await client.vote(this.state.post.id, upDown);
+        try {
+            await client.vote(this.state.post.id, upDown);
+            this.props.dispatch(postVote(this.props.posts, this.state.post.id, upDown))
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render() {

@@ -50,6 +50,10 @@ class Posts extends Component {
         });
     }
 
+    componentDidMount(){
+        this.orderByVoteScore();
+    }
+
     render() {
         let posts = this.props.posts;
         let category = this.props.category;

@@ -33,7 +33,7 @@ class Navbar extends Component {
                         <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Categories </button>
                         <div className="dropdown-menu">
                             {this.props.categories.map(category => (
-                                <Link className="dropdown-item" key={category.path} to={`/categoria/${category.name}`}>{category.name}</Link>
+                                <Link className="dropdown-item" key={category.path} to={`/${category.name}`}>{category.name}</Link>
                             ))}
                         </div>
                     </div>

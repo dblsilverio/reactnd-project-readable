@@ -35,7 +35,7 @@ ReactDOM.render(
                 <Route path="/novo" component={Novo} />
                 <Route exact path="/posts/:id" component={Post} />
                 <Route path="/posts/:id/edit" component={Novo} />
-                <Route path="/categoria/:name" component={Categoria} />
+                <Route path="/:name" component={Categoria} />
             </div>
         </BrowserRouter>
     </Provider>

@@ -21,10 +21,11 @@ export function postVote(posts, postId, voteScore){
     }
 }
 
-export function postDelete(id){
+export function postDelete(posts, postId){
     return {
         type: POST_DELETE,
-        id
+        posts,
+        postId
     }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -16,6 +16,7 @@ import Pontuacao from './ui/Pontuacao';
 import Voto from './ui/Voto';
 
 import Client from '../client/ReadAPI';
+import { postDelete } from '../actions/post/index';
 
 class Post extends Component {
 
@@ -35,6 +36,8 @@ class Post extends Component {
 
         try {
             await client.deletePost(pid);
+            this.props.dispatch(postDelete(this.props.posts, pid));
+            this.props.history.push('/');
         } catch (e) {
             console.error(e);
         }

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
@@ -31,11 +31,13 @@ ReactDOM.render(
         <BrowserRouter>
             <div className="app">
                 <Navbar />
-                <Route exact path="/" component={Index} />
-                <Route path="/novo" component={Novo} />
-                <Route exact path="/:name" component={Categoria} />
-                <Route exact path="/:category/:id" component={Post} />
-                <Route path="/:category/:id/edit" component={Novo} />
+                <Switch>
+                    <Route exact path="/" component={Index} />
+                    <Route exact path="/new" component={Novo} />
+                    <Route exact path="/:category/:id" component={Post} />
+                    <Route exact path="/:name" component={Categoria} />
+                    <Route exact path="/:category/:id/edit" component={Novo} />
+                </Switch>
             </div>
         </BrowserRouter>
     </Provider>

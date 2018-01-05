@@ -2,7 +2,7 @@ import { COMMENT_LOAD, COMMENT_DELETE, COMMENT_ADD, COMMENT_UPDATE, COMMENT_VOTE
 
 export default function comment(state = { comments: [] }, action) {
     const { comments } = action;
-    
+
     switch (action.type) {
         case COMMENT_LOAD: {
             return {
@@ -18,6 +18,11 @@ export default function comment(state = { comments: [] }, action) {
         case COMMENT_ADD: {
             const { comment } = action;
             const updatedComments = comments;
+
+            if (comment.new) {
+                delete comment.new;
+            }
+
             updatedComments.push(comment);
 
             return {
@@ -26,6 +31,7 @@ export default function comment(state = { comments: [] }, action) {
         }
         case COMMENT_UPDATE: {
             const { comment } = action;
+
             return {
                 comments: comments.map(c => {
                     if (c.id === comment.id) {
@@ -43,7 +49,7 @@ export default function comment(state = { comments: [] }, action) {
 
             return {
                 comments: comments.map(c => {
-                    if(c.id === comment.id){
+                    if (c.id === comment.id) {
                         return comment;
                     } else {
                         return c;

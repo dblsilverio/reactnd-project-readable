@@ -64,7 +64,7 @@ class Comentarios extends Component {
 
         const client = new Client();
         try {
-            await client.novoComentario(this.state.comment, post);//TODO validar
+            await client.novoComentario(this.state.comment, post);
 
             if (!this.state.comment.new) {
                 dispatch(commentUpdate(comments, this.state.comment));

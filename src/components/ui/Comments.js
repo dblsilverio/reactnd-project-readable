@@ -22,19 +22,31 @@ class Comments extends Component {
         commentAreaVisible: false
     }
 
+    async componentDidMount() {
+        const { post } = this.props;
+
+        if (post) {
+            this.loadComments(post);
+        }
+    }
+
     async componentDidUpdate(prevProps) {
 
-        const { post, dispatch } = this.props;
+        const { post } = this.props;
 
         if (post !== prevProps.post) {
-            const client = new Client();
-            let comments = await client.postComments(post);
-            comments = comments.sort((c, d) => {
-                return d.voteScore - c.voteScore;
-            });
-
-            dispatch(commentLoad(comments));
+            this.loadComments(post);
         }
+    }
+
+    async loadComments(post) {
+        const client = new Client();
+        let comments = await client.postComments(post);
+        comments = comments.sort((c, d) => {
+            return d.voteScore - c.voteScore;
+        });
+
+        this.props.dispatch(commentLoad(comments));
     }
 
     handleForm(event) {

@@ -13,7 +13,7 @@ import Pontuacao from './ui/Pontuacao';
 import Voto from './ui/Voto';
 
 import Client from '../client/ReadAPI';
-import { postDelete } from '../actions/post/index';
+import { postDelete, postLoad } from '../actions/post/index';
 
 class Post extends Component {
 
@@ -21,9 +21,33 @@ class Post extends Component {
         post: {}
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+
+        const { match, posts } = this.props;
+
+        this.selectPost(posts, match);
+    }
+
+    async componentWillUpdate(prevProps, prevState) {
+        const { dispatch, match, posts } = this.props;
+
+        if (posts.length === 0) {
+            const p = await new Client().posts();
+            dispatch(postLoad(p));
+            this.selectPost(p, match);
+        }
+    }
+
+    selectPost(posts, match) {
+        const post = posts.find(post => post.id === match.params.id);
+
+        if (!post && posts.length > 0) {
+            console.log(this.props);
+            this.props.history.push('/');
+        }
+
         this.setState({
-            post: this.props.posts.find(post => post.id === this.props.match.params.id)
+            post
         })
     }
 
@@ -43,6 +67,10 @@ class Post extends Component {
     render() {
 
         const { post } = this.state;
+
+        if (!post) {
+            return (<p></p>);
+        }
 
         return (
             <div className="py-5">

@@ -58,10 +58,11 @@ class Posts extends Component {
 
     async deletePost(pid) {
         const client = new Client();
+        const { dispatch, posts } = this.props;
 
         try {
             await client.deletePost(pid);
-            this.props.dispatch(postDelete(this.props.posts, pid));
+            dispatch(postDelete(posts, pid));
         } catch (e) {
             console.error(e);
         }
@@ -72,21 +73,21 @@ class Posts extends Component {
     }
 
     render() {
-        let posts = this.props.posts;
-        let category = this.props.category;
+        let { category, nome, posts } = this.props;
+        const { descending, ordering } = this.state;
 
         if (category) {
             posts = posts.filter(post => post.category === category);
         }
 
-        posts = postSorter(posts, this.state.ordering, this.state.descending);
+        posts = postSorter(posts, ordering, descending);
 
         return (
             <div className="py-5">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1 className="">{this.props.nome}</h1>
+                            <h1 className="">{nome}</h1>
                         </div>
                     </div>
                     <div className="row">
@@ -99,7 +100,7 @@ class Posts extends Component {
                                         <th style={{ cursor: 'pointer' }} onClick={this.orderByAuthor.bind(this)}>Author</th>
                                         <th style={{ cursor: 'pointer' }} onClick={this.orderByDate.bind(this)}>Date</th>
                                         <th style={{ width: '15%', cursor: 'pointer', textAlign: 'center' }} onClick={this.orderByComment.bind(this)}># Comments</th>
-                                        <th style={{ width: '10%'}}>&nbsp;</th>
+                                        <th style={{ width: '10%' }}>&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>

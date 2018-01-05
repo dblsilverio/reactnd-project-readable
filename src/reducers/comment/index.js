@@ -2,9 +2,7 @@ import { COMMENT_LOAD, COMMENT_DELETE, COMMENT_ADD, COMMENT_UPDATE, COMMENT_VOTE
 
 export default function comment(state = { comments: [] }, action) {
     const { comments } = action;
-
-    console.log(action);
-
+    
     switch (action.type) {
         case COMMENT_LOAD: {
             return {

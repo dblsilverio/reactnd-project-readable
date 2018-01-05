@@ -27,14 +27,17 @@ class Comentarios extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        if (this.props.post !== prevProps.post) {
+
+        const { post, dispatch } = this.props;
+
+        if (post !== prevProps.post) {
             const client = new Client();
-            let comments = await client.comentariosPost(this.props.post);
+            let comments = await client.comentariosPost(post);
             comments = comments.sort((c, d) => {
                 return d.voteScore - c.voteScore;
             });
 
-            this.props.dispatch(commentLoad(comments));
+            dispatch(commentLoad(comments));
         }
     }
 
@@ -56,6 +59,8 @@ class Comentarios extends Component {
     async handleSubmit(event) {
         event.preventDefault();
 
+        const { post, dispatch, comments } = this.props;
+
         if (!this.state.comment.body) {
             alert('Preencha um corpo para o comentário');
             return;
@@ -63,12 +68,12 @@ class Comentarios extends Component {
 
         const client = new Client();
         try {
-            await client.novoComentario(this.state.comment, this.props.post);//TODO validar
+            await client.novoComentario(this.state.comment, post);//TODO validar
 
             if (!this.state.comment.new) {
-                this.props.dispatch(commentUpdate(this.props.comments, this.state.comment));
+                dispatch(commentUpdate(comments, this.state.comment));
             } else {
-                this.props.dispatch(commentAdd(this.props.comments, this.state.comment));
+                dispatch(commentAdd(comments, this.state.comment));
             }
 
             this.cancelar();
@@ -90,10 +95,13 @@ class Comentarios extends Component {
     }
 
     async deleteComment(cid) {
+
+        const { comments, dispatch } = this.props;
+
         const client = new Client();
         try {
             await client.deleteComment(cid);
-            this.props.dispatch(commentDelete(this.props.comments, cid));
+            dispatch(commentDelete(comments, cid));
         } catch (e) {
             console.log(e);
         }
@@ -107,24 +115,18 @@ class Comentarios extends Component {
     }
 
     async toggleComment(event) {
+        let { commentAreaVisible } = this.state;
 
-        if (this.state.commentAreaVisible) {
-            await this.setState((prev) => {
-                return {
-                    commentAreaVisible: false
-                }
-            });
-        } else {
-            await this.setState((prev) => {
-                return {
-                    commentAreaVisible: true
-                }
-            });
-        }
+        this.setState({
+            commentAreaVisible: !commentAreaVisible
+        })
 
     }
 
     render() {
+
+        const { commentAreaVisible } = this.state;
+        const { comments } = this.props;
 
         return (
             <div className="col-md-12">
@@ -134,7 +136,7 @@ class Comentarios extends Component {
                     </div>
                 </div>
                 {
-                    this.state.commentAreaVisible ? (
+                    commentAreaVisible ? (
                         <div className='row' ref={(div) => { this.commentArea = div; }}>
                             <div className="col-md-12">
                                 <div className="row">
@@ -160,7 +162,7 @@ class Comentarios extends Component {
                 }
                 <div className="row">
                     <div className="col-md-12">
-                        {this.props.comments.length === 0
+                        {comments.length === 0
                             ?
                             <div className="row">
                                 <div className="col-md-12">
@@ -171,10 +173,10 @@ class Comentarios extends Component {
                             <div>
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <h4><b>{this.props.comments.length}</b> Comments</h4>
+                                        <h4><b>{comments.length}</b> Comments</h4>
                                     </div>
                                 </div>
-                                {this.props.comments.map(comment =>
+                                {comments.map(comment =>
                                     (
                                         <div key={comment.id}>
                                             <div className="row">

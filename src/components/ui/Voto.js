@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { postVote } from '../../actions/post';
-import { commentVote } from '../../actions/comment';
+import * as PostActions from '../../actions/post';
+import * as CommentActions from '../../actions/comment';
 import mapStateToProps from '../../mappers';
 
 import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
@@ -15,21 +15,23 @@ class Voto extends Component {
 
     async vote(upDown) {
         const client = new Client();
+        const { commentVote, dispatch, postVote } = this.props;
+
         let type = null;
         let id = null;
 
         try {
 
-            if (this.props.postVote) {
+            if (postVote) {
                 type = TYPE_POST;
-                id = this.props.postVote.id;
-            } else if (this.props.commentVote) {
+                id = postVote.id;
+            } else if (commentVote) {
                 type = TYPE_COMMENT;
-                id = this.props.commentVote.id;
+                id = commentVote.id;
             }
 
             await client.vote(id, type, upDown);
-            this.props.dispatch(this.prepareVote(type, upDown));
+            dispatch(this.prepareVote(type, upDown));
 
         } catch (e) {
             console.log(e);
@@ -37,26 +39,27 @@ class Voto extends Component {
     }
 
     prepareVote(type, upDown) {
+        const { posts, postVote, comments, commentVote } = this.props;
         switch (type) {
             case TYPE_POST: {
-                return postVote(this.props.posts, this.props.postVote.id, upDown);
+                return PostActions.postVote(posts, postVote.id, upDown);
             }
             case TYPE_COMMENT: {
-                return commentVote(this.props.comments, this.props.commentVote.id, upDown);
+                return CommentActions.commentVote(comments, commentVote.id, upDown);
             }
         }
 
     }
 
     render() {
-
-        const padding = this.props.size * 0.5;
+        const { size } = this.props;
+        const padding = size * 0.5;
 
         return (
             <span>
-                <button className="btn btn-success" style={{ padding }} onClick={() => this.vote('upVote')}><FAThumbsUp size={this.props.size} /></button>
+                <button className="btn btn-success" style={{ padding }} onClick={() => this.vote('upVote')}><FAThumbsUp size={size} /></button>
                 &nbsp;
-                <button className="btn btn-danger" style={{ padding }} onClick={() => this.vote('downVote')}><FAThumbsDown size={this.props.size} /></button>
+                <button className="btn btn-danger" style={{ padding }} onClick={() => this.vote('downVote')}><FAThumbsDown size={size} /></button>
             </span>
         )
     }

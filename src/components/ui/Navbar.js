@@ -14,14 +14,18 @@ class Navbar extends Component {
 
     async componentDidMount() {
 
-        if (this.props.categories.length === 0) {
+        const { categories, dispatch } = this.props;
+
+        if (categories.length === 0) {
             const categories = await new Client().categories();
-            this.props.dispatch(categoryLoad(categories));
+            dispatch(categoryLoad(categories));
         }
 
     }
 
     render() {
+
+        const { categories } = this.props;
 
         return (
 
@@ -32,7 +36,7 @@ class Navbar extends Component {
                     <div className="btn-group">
                         <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Categories </button>
                         <div className="dropdown-menu">
-                            {this.props.categories.map(category => (
+                            {categories.map(category => (
                                 <Link className="dropdown-item" key={category.path} to={`/${category.name}`}>{category.name}</Link>
                             ))}
                         </div>

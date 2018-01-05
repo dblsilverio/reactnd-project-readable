@@ -35,7 +35,7 @@ To be sure it is running and well, just visit the url `http://localhost:3001`. T
 
 By cloning or downloading this repository, all you need is to access its root, then type `npm start` to start the application. It may take a while, but as soon as its done loading, a browser windows will popup with the application.
 
-The following output from the terminarl is expected:
+The following output from the terminal is expected:
 
 ```
 Compiled successfully!

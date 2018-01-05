@@ -24,7 +24,8 @@ export default function comment(state = { comments: [] }, action) {
             }
 
             updatedComments.push(comment);
-
+            comment.voteScore = 1;
+            
             return {
                 comments: updatedComments
             }

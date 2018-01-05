@@ -100,7 +100,7 @@ class Posts extends Component {
                                         <th style={{ cursor: 'pointer' }} onClick={this.orderByAuthor.bind(this)}>Author</th>
                                         <th style={{ cursor: 'pointer' }} onClick={this.orderByDate.bind(this)}>Date</th>
                                         <th style={{ width: '15%', cursor: 'pointer', textAlign: 'center' }} onClick={this.orderByComment.bind(this)}># Comments</th>
-                                        <th style={{ width: '10%' }}>&nbsp;</th>
+                                        <th style={{ width: '15%' }}>&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,7 +112,7 @@ class Posts extends Component {
                                                 <td>{post.author}</td>
                                                 <td>{new Date(post.timestamp).toLocaleDateString()}</td>
                                                 <td style={{ textAlign: 'center' }}>{post.commentCount}</td>
-                                                <td style={{ textAlign: 'center' }}>
+                                                <td>
                                                     <span>
                                                         <Link className="btn btn-warning btn-sm" to={`/${post.category}/${post.id}/edit`}><FAEdit size="15" /></Link>
                                                         &nbsp;

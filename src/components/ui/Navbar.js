@@ -31,7 +31,7 @@ class Navbar extends Component {
 
             <nav className="navbar navbar-expand-md bg-primary navbar-dark">
                 <div className="container">
-                    <Link className="navbar-brand" to="/"><FABook /><b>&nbsp;Leitura</b></Link>
+                    <Link className="navbar-brand" to="/"><FABook /><b>&nbsp;Readable</b></Link>
                     <Link className="btn btn-default navbar-btn btn-primary text-white" to="/">Home</Link>
                     <div className="btn-group">
                         <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Categories </button>

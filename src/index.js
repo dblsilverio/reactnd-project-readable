@@ -18,9 +18,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/ui/Navbar';
 
 import Index from './components/Index';
-import Categoria from './components/Categoria';
+import Category from './components/Category';
 import Post from './components/Post';
-import Novo from './components/Novo';
+import New from './components/New';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -33,10 +33,10 @@ ReactDOM.render(
                 <Navbar />
                 <Switch>
                     <Route exact path="/" component={Index} />
-                    <Route exact path="/new" component={Novo} />
+                    <Route exact path="/new" component={New} />
                     <Route exact path="/:category/:id" component={Post} />
-                    <Route exact path="/:name" component={Categoria} />
-                    <Route exact path="/:category/:id/edit" component={Novo} />
+                    <Route exact path="/:name" component={Category} />
+                    <Route exact path="/:category/:id/edit" component={New} />
                 </Switch>
             </div>
         </BrowserRouter>

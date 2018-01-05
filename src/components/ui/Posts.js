@@ -9,8 +9,8 @@ import mapStateToProps from '../../mappers/postMapper';
 import { postDelete } from '../../actions/post';
 import postSorter from '../../helpers/postSorter';
 
-import Pontuacao from './Pontuacao';
-import Voto from './Voto';
+import VoteScore from './VoteScore';
+import VotingBoard from './VotingBoard';
 
 import Client from '../../client/ReadAPI';
 
@@ -107,8 +107,8 @@ class Posts extends Component {
                                     {
                                         posts.map(post => (
                                             <tr key={post.id}>
-                                                <td style={{ textAlign: 'center' }}><Pontuacao pontos={post.voteScore} /></td>
-                                                <td><Link to={`/${post.category}/${post.id}`}>{post.title}</Link> <Voto postVote={post} size="10" /></td>
+                                                <td style={{ textAlign: 'center' }}><VoteScore score={post.voteScore} /></td>
+                                                <td><Link to={`/${post.category}/${post.id}`}>{post.title}</Link> <VotingBoard postVote={post} size="10" /></td>
                                                 <td>{post.author}</td>
                                                 <td>{new Date(post.timestamp).toLocaleDateString()}</td>
                                                 <td style={{ textAlign: 'center' }}>{post.commentCount}</td>

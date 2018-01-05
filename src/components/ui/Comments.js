@@ -7,12 +7,12 @@ import FAEdit from 'react-icons/lib/fa/edit';
 
 import { commentLoad, commentDelete, commentAdd, commentUpdate } from '../../actions/comment';
 import commentMapper from '../../mappers/commentMapper';
-import Pontuacao from './Pontuacao';
-import Voto from './Voto';
+import VoteScore from './VoteScore';
+import VotingBoard from './VotingBoard';
 
 import Client from '../../client/ReadAPI';
 
-class Comentarios extends Component {
+class Comments extends Component {
 
     state = {
         comment: {
@@ -28,7 +28,7 @@ class Comentarios extends Component {
 
         if (post !== prevProps.post) {
             const client = new Client();
-            let comments = await client.comentariosPost(post);
+            let comments = await client.postComments(post);
             comments = comments.sort((c, d) => {
                 return d.voteScore - c.voteScore;
             });
@@ -64,7 +64,7 @@ class Comentarios extends Component {
 
         const client = new Client();
         try {
-            await client.novoComentario(this.state.comment, post);
+            await client.newComment(this.state.comment, post);
 
             if (!this.state.comment.new) {
                 dispatch(commentUpdate(comments, this.state.comment));
@@ -180,10 +180,10 @@ class Comentarios extends Component {
                                                     <div className="row">
                                                         <div className="col-md-12">
                                                             <p className="lead">
-                                                                <Pontuacao pontos={comment.voteScore} />
+                                                                <VoteScore score={comment.voteScore} />
                                                                 <b>{comment.author}</b> @ {new Date(comment.timestamp).toLocaleDateString()}
                                                                 <span>
-                                                                    &nbsp;<Voto commentVote={comment} size="10" />
+                                                                    &nbsp;<VotingBoard commentVote={comment} size="10" />
                                                                 </span>
                                                             </p>
                                                         </div>
@@ -213,4 +213,4 @@ class Comentarios extends Component {
 
 }
 
-export default connect(commentMapper)(Comentarios);
+export default connect(commentMapper)(Comments);

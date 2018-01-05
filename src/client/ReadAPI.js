@@ -21,11 +21,11 @@ export default class ReadAPI {
         return [];
     }
 
-    async posts(categoria = null) {
+    async posts(category = null) {
         let uri = '/posts';
 
-        if (categoria) {
-            uri = `/${categoria}${uri}`;
+        if (category) {
+            uri = `/${category}${uri}`;
         }
 
         const posts = await this.request(uri);
@@ -37,7 +37,7 @@ export default class ReadAPI {
         return [];
     }
 
-    async novoPost(post) {
+    async newPost(post) {
 
         let method = 'POST';
         let uri = `${API_URL}/posts`;
@@ -93,7 +93,7 @@ export default class ReadAPI {
         });
     }
 
-    async comentariosPost(post_id) {
+    async postComments(post_id) {
         const comentarios = await this.request(`/posts/${post_id}/comments`);
         if (comentarios) {
             return comentarios;
@@ -102,20 +102,20 @@ export default class ReadAPI {
         return [];
     }
 
-    async novoComentario(comentario, post) {
+    async newComment(comment, post) {
         let metodo = 'POST';
         let uri = '/comments/';
 
-        if (!comentario.id) {
-            comentario['id'] = uid(20);
-            comentario['parentId'] = post;
-            comentario['new'] = true;
+        if (!comment.id) {
+            comment['id'] = uid(20);
+            comment['parentId'] = post;
+            comment['new'] = true;
         } else {
             metodo = 'PUT';
-            uri = `/comments/${comentario.id}`;
+            uri = `/comments/${comment.id}`;
         }
 
-        comentario['timestamp'] = Date.now();
+        comment['timestamp'] = Date.now();
 
         await fetch(`${API_URL}${uri}`, {
             method: metodo,
@@ -123,7 +123,7 @@ export default class ReadAPI {
                 'Content-type': 'application/json',
                 ...HEADERS
             },
-            body: JSON.stringify(comentario)
+            body: JSON.stringify(comment)
         });
 
     }

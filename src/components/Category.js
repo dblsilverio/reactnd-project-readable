@@ -7,7 +7,7 @@ import mapStateToProps from '../mappers/postMapper';
 
 import Client from '../client/ReadAPI';
 
-class Categoria extends Component {
+class Category extends Component {
 
     async componentDidMount() {
 
@@ -32,4 +32,4 @@ class Categoria extends Component {
 
 }
 
-export default connect(mapStateToProps)(Categoria);
+export default connect(mapStateToProps)(Category);

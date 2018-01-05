@@ -11,7 +11,7 @@ import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
 import Client, { TYPE_COMMENT, TYPE_POST } from '../../client/ReadAPI';
 
-class Voto extends Component {
+class VotingBoard extends Component {
 
     async vote(upDown) {
         const client = new Client();
@@ -67,4 +67,4 @@ class Voto extends Component {
 
 }
 
-export default connect(mapStateToProps)(Voto);
+export default connect(mapStateToProps)(VotingBoard);

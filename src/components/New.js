@@ -6,7 +6,7 @@ import Client from '../client/ReadAPI';
 import mapStateToProps from '../mappers';
 import { postAdd, postUpdate } from '../actions/post/index';
 
-class Novo extends Component {
+class New extends Component {
 
     state = {
         post: {
@@ -59,12 +59,12 @@ class Novo extends Component {
         const { dispatch, history, posts } = this.props;
 
         if (!post.category) {
-            alert('Selecione uma categoria');
+            alert('Select a category');
             return;
         }
 
         try {
-            await new Client().novoPost(post);
+            await new Client().newPost(post);
             if (post.new) {
                 dispatch(postAdd(posts, post));
             } else {
@@ -100,8 +100,8 @@ class Novo extends Component {
                                 <div className="form-group"> <label>Category</label>
                                     <select id="category" name="category" className="form-control w-25" onChange={this.handleForm.bind(this)} ref={(input) => { this.category = input; }} value={post.category}>
                                         <option value=""></option>
-                                        {this.props.categories.map(categoria => (
-                                            <option key={categoria.path} value={categoria.path}>{categoria.name}</option>
+                                        {this.props.categories.map(category => (
+                                            <option key={category.path} value={category.path}>{category.name}</option>
                                         ))}
                                     </select>
                                 </div>
@@ -121,4 +121,4 @@ class Novo extends Component {
 
 }
 
-export default connect(mapStateToProps)(Novo);
+export default connect(mapStateToProps)(New);

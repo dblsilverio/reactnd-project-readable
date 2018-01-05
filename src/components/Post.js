@@ -8,9 +8,9 @@ import FAEdit from 'react-icons/lib/fa/edit';
 
 import mapStateToProps from '../mappers/postMapper';
 
-import Comentarios from './ui/Comentarios';
-import Pontuacao from './ui/Pontuacao';
-import Voto from './ui/Voto';
+import Comments from './ui/Comments';
+import VoteScore from './ui/VoteScore';
+import VotingBoard from './ui/VotingBoard';
 
 import Client from '../client/ReadAPI';
 import { postDelete, postLoad } from '../actions/post/index';
@@ -77,7 +77,7 @@ class Post extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1><Pontuacao pontos={post.voteScore} /> {post.title}</h1>
+                            <h1><VoteScore score={post.voteScore} /> {post.title}</h1>
                         </div>
                     </div>
                     <div className="row">
@@ -103,12 +103,12 @@ class Post extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <p className="lead" style={{ textAlign: 'center' }}>
-                                <Voto postVote={post} size="20" />
+                                <VotingBoard postVote={post} size="20" />
                             </p>
                         </div>
                     </div>
                     <div className="row">
-                        <Comentarios post={post.id} />
+                        <Comments post={post.id} />
                     </div>
                 </div>
             </div>

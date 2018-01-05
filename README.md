@@ -33,7 +33,9 @@ To be sure it is running and well, just visit the url `http://localhost:3001`. T
 
 ### Running the Client React App
 
-By cloning or downloading this repository, all you need is to access its root, then type `npm start` to start the application. It may take a while, but as soon as its done loading, a browser windows will popup with the application.
+By cloning or downloading this repository, all you need is to access its root, then type `npm install` to prepare all dependencies needed.
+
+After the installation finishes, type `npm start` to start the application. It may take a while, but as soon as its done loading, a browser windows will popup with the application.
 
 The following output from the terminal is expected:
 

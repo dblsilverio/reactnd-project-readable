@@ -5,16 +5,12 @@ import { connect } from 'react-redux';
 import FAEraser from 'react-icons/lib/fa/eraser';
 import FAEdit from 'react-icons/lib/fa/edit';
 
-import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
-import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
-
 import { commentLoad, commentDelete, commentAdd, commentUpdate } from '../../actions/comment';
 import commentMapper from '../../mappers/commentMapper';
 import Pontuacao from './Pontuacao';
 import Voto from './Voto';
 
 import Client from '../../client/ReadAPI';
-import { __esModule } from 'react-redux/lib/components/connectAdvanced';
 
 class Comentarios extends Component {
 

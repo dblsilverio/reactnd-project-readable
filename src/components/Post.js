@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
 import FAEraser from 'react-icons/lib/fa/eraser';
 import FAEdit from 'react-icons/lib/fa/edit';
-
-import FAThumbsUp from 'react-icons/lib/fa/thumbs-o-up';
-import FAThumbsDown from 'react-icons/lib/fa/thumbs-o-down';
 
 import mapStateToProps from '../mappers/postMapper';
 

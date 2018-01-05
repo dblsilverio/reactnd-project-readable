@@ -47,6 +47,7 @@ class Voto extends Component {
             case TYPE_COMMENT: {
                 return CommentActions.commentVote(comments, commentVote.id, upDown);
             }
+            default: throw Error(`Invalid option: ${type}`);
         }
 
     }

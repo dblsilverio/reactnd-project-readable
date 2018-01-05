@@ -70,7 +70,7 @@ export default class ReadAPI {
     }
 
     async deleteComment(cid) {
-        const response = await fetch(`${API_URL}/comments/${cid}`, {
+        await fetch(`${API_URL}/comments/${cid}`, {
             method: 'DELETE',
             headers: HEADERS
         });
@@ -87,7 +87,7 @@ export default class ReadAPI {
     }
 
     async deletePost(post_id) {
-        const response = await fetch(`${API_URL}/posts/${post_id}`, {
+        await fetch(`${API_URL}/posts/${post_id}`, {
             method: 'DELETE',
             headers: HEADERS
         });
@@ -140,6 +140,9 @@ export default class ReadAPI {
             case TYPE_POST: {
                 uri = 'posts';
                 break;
+            }
+            default:{
+                throw Error(`Invalid type: ${type}`);
             }
         }
 

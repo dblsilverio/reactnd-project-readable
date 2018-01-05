@@ -40,7 +40,7 @@ class Navbar extends Component {
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
                     <div className="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
                         <ul className="navbar-nav"></ul>
-                        <Link className="btn navbar-btn ml-2 text-white btn-primary" to="/novo"><FANewspaper />&nbsp;New Post</Link>
+                        <Link className="btn navbar-btn ml-2 text-white btn-primary" to="/new"><FANewspaper />&nbsp;New Post</Link>
                     </div>
                 </div>
             </nav>

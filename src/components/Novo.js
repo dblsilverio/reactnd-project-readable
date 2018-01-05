@@ -61,7 +61,7 @@ class Novo extends Component {
 
         try {
             await new Client().novoPost(this.state.post);
-            if (!this.state.post.id) {
+            if (this.state.post.new) {
                 this.props.dispatch(postAdd(this.props.posts, this.state.post));
             } else {
                 this.props.dispatch(postUpdate(this.props.posts, this.state.post));

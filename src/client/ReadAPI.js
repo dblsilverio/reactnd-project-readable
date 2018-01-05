@@ -54,6 +54,7 @@ export default class ReadAPI {
             post.id = id;
             post.timestamp = timestamp;
             post.voteScore = 1;
+            post.new = true;
         }
 
         await fetch(uri, {
@@ -90,8 +91,6 @@ export default class ReadAPI {
             method: 'DELETE',
             headers: HEADERS
         });
-
-        console.log(response);
     }
 
     async comentariosPost(post_id) {

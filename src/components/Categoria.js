@@ -10,16 +10,22 @@ import Client from '../client/ReadAPI';
 class Categoria extends Component {
 
     async componentDidMount() {
-        if (this.props.posts.length === 0) {
+
+        const { dispatch, posts } = this.props;
+
+        if (posts.length === 0) {
             const posts = await new Client().posts();
-            this.props.dispatch(postLoad(posts));
+            dispatch(postLoad(posts));
         }
     }
 
     render() {
+
+        const { match } = this.props;
+
         return (
             <div>
-                <Posts category={this.props.match.params.name} nome={`Category: ${this.props.match.params.name}`} />
+                <Posts category={match.params.name} nome={`Category: ${match.params.name}`} />
             </div>
         );
     }

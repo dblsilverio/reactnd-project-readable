@@ -21,8 +21,7 @@ import { postDelete } from '../actions/post/index';
 class Post extends Component {
 
     state = {
-        post: {},
-        comment: {}
+        post: {}
     }
 
     async componentDidMount() {
@@ -33,34 +32,38 @@ class Post extends Component {
 
     async deletePost(pid) {
         const client = new Client();
+        const { dispatch, history, posts } = this.props;
 
         try {
             await client.deletePost(pid);
-            this.props.dispatch(postDelete(this.props.posts, pid));
-            this.props.history.push('/');
+            dispatch(postDelete(posts, pid));
+            history.push('/');
         } catch (e) {
             console.error(e);
         }
     }
 
     render() {
+
+        const { post } = this.state;
+
         return (
             <div className="py-5">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1><Pontuacao pontos={this.state.post.voteScore} /> {this.state.post.title}</h1>
+                            <h1><Pontuacao pontos={post.voteScore} /> {post.title}</h1>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-12">
                             <p className="lead">
-                                {new Date(this.state.post.timestamp).toLocaleDateString()} by {this.state.post.author} @ <Link to={`/${this.state.post.category}`}>{this.state.post.category}</Link>
+                                {new Date(post.timestamp).toLocaleDateString()} by {post.author} @ <Link to={`/${post.category}`}>{post.category}</Link>
                                 &nbsp;
                                 <span>
-                                    <Link className="btn btn-warning btn-sm" to={`/${this.state.post.category}/${this.state.post.id}/edit`}><FAEdit size="15" /></Link>
+                                    <Link className="btn btn-warning btn-sm" to={`/${post.category}/${post.id}/edit`}><FAEdit size="15" /></Link>
                                     &nbsp;
-                                    <button className="btn btn-danger btn-sm" onClick={() => this.deletePost(this.state.post.id)}><FAEraser size="15" /></button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => this.deletePost(post.id)}><FAEraser size="15" /></button>
                                 </span>
                             </p>
                         </div>
@@ -68,19 +71,19 @@ class Post extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <pre style={{ whiteSpace: 'pre-wrap' }}>
-                                {this.state.post.body}
+                                {post.body}
                             </pre>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-12">
                             <p className="lead" style={{ textAlign: 'center' }}>
-                                <Voto postVote={this.state.post} size="20" />
+                                <Voto postVote={post} size="20" />
                             </p>
                         </div>
                     </div>
                     <div className="row">
-                        <Comentarios post={this.state.post.id} />
+                        <Comentarios post={post.id} />
                     </div>
                 </div>
             </div>

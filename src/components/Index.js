@@ -12,9 +12,11 @@ class Index extends Component {
 
     async componentDidMount() {
 
-        if (this.props.posts.length === 0) {
+        const { dispatch, posts } = this.props;
+
+        if (posts.length === 0) {
             const posts = await new Client().posts();
-            this.props.dispatch(postLoad(posts));
+            dispatch(postLoad(posts));
         }
 
     }
